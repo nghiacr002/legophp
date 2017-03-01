@@ -6,7 +6,7 @@ class Exporter extends \APP\Engine\Module\Exporter
 {
 	protected $_sFileName = "core";
 	protected $_aDatabaseTables = array (
-			'category' => array (),
+			'category' => array ('no-data' => true),
 			'country' => array (),
 			'hashtag' => array (
 					'no-data' => true
