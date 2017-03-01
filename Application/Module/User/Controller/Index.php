@@ -129,7 +129,8 @@ class IndexController extends Controller
                     {
                     	if($bIsModeInstall)
                     	{
-                    		$oNewUser->level = UserGroupModel::ADMINISTRATOR;
+                    		$oNewUser->main_group_id = UserGroupModel::ADMINISTRATOR;
+                    		$oNewUser->status = UserModel::STATUS_ACTIVE;
                     	}
                         $iUserId = $oNewUser->save();
                         if ($iUserId)
