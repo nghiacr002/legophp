@@ -1,0 +1,6 @@
+@CHARSET "UTF-8";
+#media-toolbox input.form-control{
+    height:29px;
+    font-size:13px;
+    min-width: 100px;
+}

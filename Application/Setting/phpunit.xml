@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    backupStaticAttributes="false"
+
+    cacheTokens="false"
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    forceCoversAnnotation="false"
+    mapTestClassNameToCoveredClassName="false"
+    printerClass="PHPUnit_TextUI_ResultPrinter"
+    processIsolation="false"
+    stopOnError="false"
+    stopOnFailure="false"
+    stopOnIncomplete="false"
+    stopOnSkipped="false"
+    testSuiteLoaderClass="PHPUnit_Runner_StandardTestSuiteLoader"
+
+    strict="false"
+    verbose="true"
+    bootstrap = "../../unit-test.php"
+>
+
+    <testsuites>
+        <testsuite name="Simple App Testing">
+            <directory>../../Application/Module/Core/UnitTest/</directory>
+            <directory>../../Application/Module/User/UnitTest/</directory>
+        </testsuite>
+    </testsuites>
+    <listeners>
+        <listener class="AppTestListener" file="../../Engine/UnitTest/AppTestListener.php">
+        </listener>
+    </listeners>
+</phpunit>

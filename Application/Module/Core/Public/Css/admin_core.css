@@ -1,0 +1,16 @@
+.editableform textarea.form-control{
+    width:100% !important;
+}
+
+.note_data {
+    height: 200px;
+    width: 100%;
+    margin-bottom:5px;
+    padding:5px 7px;
+}
+.value-info{
+    font-weight: bold;
+}
+.value-text{
+    width:90px;
+}

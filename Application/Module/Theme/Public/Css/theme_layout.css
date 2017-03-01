@@ -1,0 +1,68 @@
+.page-location-design-mode {
+    min-height: 50px;
+    width:100%;
+    border:1px solid #eee;
+    margin:5px 0;
+    background:#fff;
+}
+.main-contain-wrapper{
+    height:290px;
+    padding:0;
+}
+.main-contain-wrapper .col-md-8,
+.main-contain-wrapper .col-md-3,
+.main-contain-wrapper .col-md-6,
+.main-contain-wrapper .col-md-12,
+.main-contain-wrapper .col-md-4{
+    padding:2px;
+}
+#page-2-column .page-location-design-mode,
+#page-no-column #page-location-1{
+    height:275px;
+    overflow-y:auto;
+}
+#page-3-column-middle-big .page-location-design-mode,
+#page-3-column .page-location-design-mode{
+    padding:2px;
+    height:275px;
+    overflow-y:auto;
+}
+#page-3-column-middle-big.has-4-location .col-md-12 .page-location-design-mode{
+    height:71px;
+    margin:0;
+}
+#page-3-column-middle-big.has-4-location .col-md-6 .page-location-design-mode,
+#page-3-column-middle-big.has-4-location .col-md-3 .page-location-design-mode {
+    height:200px;
+
+    margin:0;
+}
+.page-location .widget-sortable{
+    display:block;
+    height:100%;
+    margin:0;
+    padding:5px 7px;
+} 
+.page-location .widget-sortable{
+    list-style: none;
+}
+.widget-sortable li.ui-sortable-handle{
+    position: relative;
+}
+.widget-sortable li.ui-sortable-handle:hover{
+    cursor: move;
+}
+.widget-controls-holder{
+    display:block;
+    float:right;
+    position: absolute;
+    right:3px;
+    top:3px;
+}
+.widget-controls-holder a{
+    display:inline-block;
+    margin:0 3px;
+}
+.widget-hidden-data{
+    display:none;
+}

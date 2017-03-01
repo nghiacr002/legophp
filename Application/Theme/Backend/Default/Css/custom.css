@@ -1,0 +1,130 @@
+@CHARSET "UTF-8";
+li.header{
+    text-transform: uppercase;
+}
+.ucfirst{
+    text-transform: capitalize;
+}
+.user-panel > .info > p{
+    margin-bottom:5px;
+}
+.user-panel > .info{
+    padding:0;
+}
+.box-tools.pull-right .btn{
+    padding:3px 7px;
+}
+.bootbox-confirm .modal-footer{
+    padding:7px;
+}
+.bootbox-confirm .modal-body{
+    font-size:20px;
+}
+.flash-warning{
+    color: #f39c12 !important;
+}
+.flash-success{
+    color: #00a65a !important;
+}
+.flash-info{
+    color: #00c0ef !important;
+}
+.flash-error{
+    color: #dd4b39 !important;
+}
+.register-box{
+    margin: 30px auto;
+}
+.required{
+    color:red;
+}
+#filter-holder .filter-element{
+    display:inline-block;
+    width:auto;
+    margin-right:5px;
+}
+#search-submit-button{
+    margin-top:-4px;
+}
+form .messages .login-box-msg{
+    text-align: left;
+    padding-left:0;
+}
+.clear{
+    clear:both;
+}
+.label-status--1{
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color:#333;
+}
+.label-status--2{
+    background-color:#f4f4f4;
+    color:#333;
+    border: 1px solid #ccc;
+}
+.label-status-1{
+    background-color: #3c8dbc;
+}
+.paging-right-holder{
+    margin:0 5px;
+    text-align: right;
+}
+.extra_info{
+    color:#3c8dbc;
+    font-style: italic;
+    font-size:12px;	
+}
+.group-meta-tags h3{
+    margin-top:0;
+    margin-bottom:11px;
+}
+.group-meta-tags{
+    margin-bottom:7px;
+    padding-bottom:7px;
+    border-bottom:1px dashed #dfdfdf;
+}
+.content-flash{
+    padding:15px;
+}
+.content-flash .messages .flash-success{
+    background:#00a65a !important;
+    color: #fff !important;
+}
+.content-flash .login-box-msg{
+    text-align: left;
+    padding:7px 5px;
+    margin:5px 0;
+}
+td > a.btn{
+    padding: 3px 7px;
+}
+.content-header > h1,
+.sidebar-menu li > a{
+    text-transform: capitalize;
+}
+.box.nav-tabs-custom{
+    border-top:0;
+}
+.tip{
+	display:block;
+	margin:3px 0;
+}
+.user-panel > .image > img.img-circle{
+	max-width: 38px;
+}
+.admin-right-header-menu{
+	margin-top:8px;
+	margin-right:5px;
+}
+.tip{
+	color:#333;
+	font-style: italic;
+	font-size:12px;
+}
+.display-inline{
+	display:inline-block;
+}
+.ace_editor_default{
+	height:200px;
+}

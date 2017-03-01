@@ -1,0 +1,36 @@
+@CHARSET "UTF-8";
+ol,
+#menu-holder-editable{
+    list-style: none;;
+}
+#menu-holder-editable{
+    padding-left:5px;
+}
+#menu-holder-editable li.menu-item {
+
+}
+.menu-content{
+    border:1px solid #dfdfdf;
+    padding:6px 12px;
+    margin:5px 0;
+    width:100%;
+    border-radius: 3px;
+    color: #444;
+    position: relative;
+}
+form .form-message{
+    margin:10px;
+}
+.edit-row-menu{
+    font-size:11px;
+}
+.edit-row-menu .btn{
+    padding:3px 5px;
+    font-size:8px;
+}
+.menu-active-mode-0{
+    background:#eee;
+}
+#switch_form a{
+    font-size:12px;
+}

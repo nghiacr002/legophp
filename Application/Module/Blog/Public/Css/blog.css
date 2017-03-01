@@ -1,0 +1,18 @@
+.blog-list-holder{
+	list-style: none;
+	padding:0;
+}
+ul.blog-list-holder li{
+	margin-bottom:15px;
+}
+.blog-img{
+	float:left; 
+	width:80px; 
+}
+.blog-content{
+	text-align:justify;
+	padding-left:89px;
+}
+.blog-title{
+	font-size: 17px;
+}

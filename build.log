@@ -1,0 +1,13 @@
+Build App Core Release --- 1.03.01032017
+Copy Application
+Copy DevTool
+Copy Engine
+Copy Library
+Copy Public
+Copy Install
+Copy .htaccess
+Copy index.php
+Copy install.php
+Copy unit-test.php
+Export DB for module core
+Export DB for module blog

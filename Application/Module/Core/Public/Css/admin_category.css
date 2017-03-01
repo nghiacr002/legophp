@@ -1,0 +1,36 @@
+@CHARSET "UTF-8";
+ol,
+#category-holder-editable{
+    list-style: none;;
+}
+#category-holder-editable{
+    padding-left:5px;
+}
+#category-holder-editable li.category-item {
+
+}
+.category-content{
+    border:1px solid #dfdfdf;
+    padding:6px 12px;
+    margin:5px 0;
+    width:100%;
+    border-radius: 3px;
+    color: #444;
+    position: relative;
+}
+form .form-message{
+    margin:10px;
+}
+.edit-row-category{
+    font-size:11px;
+}
+.edit-row-category .btn{
+    padding:3px 5px;
+    font-size:8px;
+}
+.category-active-mode-0{
+    background:#eee;
+}
+#switch_form a{
+    font-size:12px;
+}
