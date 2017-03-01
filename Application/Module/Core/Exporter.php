@@ -21,8 +21,8 @@ class Exporter extends \APP\Engine\Module\Exporter
 			'language' => array (),
 			'language_patch' => array (),
 			'layout' => array (),
-			'layout_design' => array (),
-			'layout_widgets' => array (),
+			'layout_design' => array ('no-data' => true),
+			'layout_widgets' => array ('no-data' => true),
 			'media' => array ('no-data' => true),
 			'meta_tags' => array (
 					'no-data' => true

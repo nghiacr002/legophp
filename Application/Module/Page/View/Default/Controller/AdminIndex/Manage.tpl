@@ -70,6 +70,7 @@
                 <div class="alert alert-warning" style="margin:5px 10px;">{{ Translate('core.no_items_found') }}</div>
                 {% endif %}
             </div>
+            {% if aPages|length > 0 %}
             <div class="paging-right-holder">
             	<div class="pull-left" style="margin-bottom:15px;">
                 	<a href="javascript:void(0)" onclick="ADMIN_PAGE.resetLandingPage()" class="btn btn-danger">{{ Translate('page.reset_landing') }}</a>
@@ -77,6 +78,7 @@
                 {{ paginator.render() }}
                 <div class="clear"></div>
             </div>
+            {% endif%}
         </div>
         <!-- /.box -->
     </div>

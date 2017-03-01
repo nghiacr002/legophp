@@ -101,8 +101,11 @@ class FileManager {
 		exit ();
 	}
 	public function removeFile($sFile) {
-		@unlink ( $sFile );
-		return true;
+		if(file_exists($sFile)){
+			@unlink ( $sFile );
+			return true;
+		}
+		return false;
 	}
 	public function recurse_remove($sSourcePath, $bForceRemoveParent = true) {
 		$dir = opendir ( $sSourcePath );

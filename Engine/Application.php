@@ -38,6 +38,11 @@ class Application {
 		if ($this->isDebug ()) {
 			$this->enableDebug ();
 		}
+		if(isset($aConfigs['apps']))
+		{
+			$this->_sVersion = $aConfigs['apps']['version'];
+			$this->_sName = $aConfigs['apps']['name'];
+		}
 	}
 	public function setSharedData($sKey, $mValue) {
 		$this->_aSharedData [$sKey] = $mValue;

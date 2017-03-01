@@ -2,28 +2,31 @@
 
 $_CONF['db'] = array(
     'host' => 'localhost',
-    'name' => 'legodb',
-    'user' => 'root',
-    'pwd' => '123456',
+    'name' => '',
+    'user' => '',
+    'pwd' => '',
     'port' => 3306,
     'prefix' => 'tbl_',
     'adapter' => 'mysqli',
     'charset' => 'utf8'
 );
 $_CONF['api_versions'] = array(
-    'default', '1.1',
+    'default'
 );
 $_CONF['system'] = array(
     'data_response' => 'JSON',
     'format_time' => 'l jS \of F Y h:i:s A',
-    'base_path' => '/simplecms/',
-    'session_prefix' => 'simplecms_',
+    'base_path' => '/',
+    'session_prefix' => 'legophp_',
     'admin_path' => 'admincp',
     'language' => 'en',
 );
-
+$_CONF['apps'] = array(
+	'version' => '1.00.00000000',
+	'name' => 'LEGO-BEAN'
+);
 $_CONF['cookie'] = array(
-    'prefix' => 'simplecms_',
+    'prefix' => 'legophp_',
     'expried' => 30,
     'path' => '/',
     'domain' => '',
@@ -32,7 +35,7 @@ $_CONF['cache'] = array(
     'storage' => 'file',
     'path' => APP_CACHE_PATH,
 );
-$_CONF['enviroment'] = 'development';
+$_CONF['enviroment'] = 'development';//production
 $_CONF['security'] = array(
     'random' => 'abqwertyuioplkjhgfdsaxcvbnm876543210'
 );
