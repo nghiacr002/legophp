@@ -9,7 +9,7 @@ class GlobalSearchWidget extends Widget
 
     public function process()
     {
-       
+       return false;
     }
 
 }
