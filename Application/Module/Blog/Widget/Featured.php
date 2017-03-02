@@ -9,14 +9,16 @@ class FeaturedWidget extends Widget
 {
     public function process()
     {
-    	$iLimit = 5;
+    	$aParams = $this->getParams();
+    	$iLimit = isset($aParams['limit']) ? (int)$aParams['limit'] : 5;
     	$aBlogItems = (new Blog())->getFeaturedItems($iLimit);
     	if(!count($aBlogItems))
     	{
     		return false;
     	}
     	$this->view->aBlogItems = $aBlogItems;
-    	$this->setTitle($this->language()->get('blog.featured_blogs'));
+    	$sTitle = isset($aParams['title']) ? $aParams['title']: $this->language()->get('blog.featured_blogs');
+    	$this->setTitle($sTitle);
     }
 
 }

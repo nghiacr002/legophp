@@ -1,4 +1,10 @@
 var debug_item;
+var CAPPEDITOR = function(element){
+	this.element = element; 
+};
+CAPPEDITOR.prototype.insertContent = function(content){
+	console.log(content); 
+}
 CORE = {
     params: {},
     phrases: {},
