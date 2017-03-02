@@ -9,6 +9,28 @@
             			  {% if aSetting.type == 'text' %}
             			  	 <input type="text" id="params_{{ key }}" class="form-control" name="params[{{ key }}]" value="{{ aSetting.value}}" >
             			  {% endif %}
+            			  {% if aSetting.type == 'slider' %}
+            			  	<script type="text/javascript">
+                                  CORE.POPUP.resize('{{ iPopupId }}','medium');
+                                  CORE.editor('#params_{{ key }}');
+            			  	</script>
+            			  	<div class="image-slider">
+            			  		{%if aSetting.value %}
+            			  		{% else %}
+            			  		{% endif %}
+            			  	</div>
+            			  	<div class="file-manager">
+            			  		<a href="javascript:void(0)" class="btn btn-info btn-xs" onclick="add_media_slider(this);">{{ Translate('core.add_media') }}</a>
+            			  		<script type="text/javascript">
+            			  			function add_media_slider(element)
+            			  			{
+            			  				var item = new CAPPEDITOR(element);
+            			  				CORE.showFileManager(item);
+            			  			}
+            			  			
+            			  		</script>
+            			  	</div>
+            			  {% endif %}
             			  {% if aSetting.type == 'editor' %}
             			  	<textarea id="params_{{ key }}" class="form-control" name="params[{{ key }}]">{{ aSetting.value}}</textarea>
             			  	<script type="text/javascript">

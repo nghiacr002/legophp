@@ -123,13 +123,15 @@
                         }
                 this.getItemHTML = function(item){
                 var _default = {
-                type:'file',
+                		type:'file',
                         'title':'',
                         'full_path':'#',
                         'mode':'normal',
                         'defaultView': false,
                         'orginal': '',
+                        absolute_path: '',
                 }
+                console.log(item);
                 item = $.extend(_default, item);
                         //console.log(item);
                         var _cl = "item-content";

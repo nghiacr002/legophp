@@ -307,3 +307,5 @@ $aPhrases['core.invalid_url_should_only_front_end_internal_url'] = 'Invalid URL.
 $aPhrases['core.welcome_simplecms_nice_day'] = 'Welcome to simpleCMS. Have a nice day !';
 $aPhrases['core.register_first_account_as_admin_system'] = 'Register first account as admin system !';
 $aPhrases['core.cache_cleaned'] = 'Cache cleaned.';
+$aPhrases['core.slider'] = 'Slider';
+$aPhrases['core.add_media'] = 'Add Media';
