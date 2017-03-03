@@ -169,6 +169,11 @@ class MediaController extends Controller
                         {
                             $aResult['thumb'] = $oImage->getThumbUrl($sFullPath, 'medium-square');
                         }
+                        $aResult['absolute_path'] = str_replace(APP_UPLOAD_PATH, "", $sFullPath);
+                        /*if ($aFile['absolute_path'] == APP_PUBLIC_PATH)
+                        {
+                        	continue;
+                        }*/
                     } else
                     {
                         $aResult['message'] = $oFile->getErrorFile($aFile['error']);
@@ -269,7 +274,7 @@ class MediaController extends Controller
     {
         $aFiles = array();
         $sMode = $this->request()->get('mode');
-
+		$sTypeFile = $this->request()->get('type');
         if ($this->request()->isAjax() || $this->request()->get('ajax') == 1)
         {
             if ($this->request()->get('preview') == true)
@@ -286,6 +291,7 @@ class MediaController extends Controller
                 $oMedia = new Media();
                 foreach ($aScannedFiles as $iKey => $aFile)
                 {
+
                     $aFile['thumb'] = "";
                     if ($sMode == "explorer")
                     {
@@ -305,6 +311,13 @@ class MediaController extends Controller
                         if (Utils::isImage($aFile['full_path']))
                         {
                             $aFile['thumb'] = $oImage->getThumbUrl($aFile['full_path'], 'medium-square');
+                        }
+                        else
+                        {
+                        	if($sTypeFile == "image")
+                        	{
+                        		continue;
+                        	}
                         }
                         $aFile['defaultView'] = false;
                         $aFile['original'] = $oMedia->getOriginalUrl($aFile['absolute_path']);

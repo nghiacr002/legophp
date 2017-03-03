@@ -81,6 +81,7 @@ class Application {
 		} elseif (empty ( $sTemplateName )) {
 			$sTemplateName = "Master.tpl";
 		}
+		$sTemplateName = \APP\Engine\Template::getFileName($sTemplateName);
 		return $sTemplateName;
 	}
 	public function init() {

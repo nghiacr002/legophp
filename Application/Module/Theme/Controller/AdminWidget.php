@@ -86,7 +86,7 @@ class AdminWidgetController extends Controller
                     $aReturn['message'] = $this->language()->translate('theme.added_new_widget_html_successfully');
                 } else
                 {
-                    
+
                 }
             } else
             {
@@ -108,13 +108,13 @@ class AdminWidgetController extends Controller
         if(!$oWidget || !$oWidget->widget_id)
         {
         	system_display_result(array(
-        		'status' => 0, 
+        		'status' => 0,
         		'message' => $this->language()->translate('layout.widget_not_found'),
         	));
         }
-        
+
         $aSettings = $oWidget->params;
-       
+
         if($sType == "layout")
         {
         	$oWidgetInstance = (new LayoutDesign())->getOne($iPWid);
@@ -153,8 +153,8 @@ class AdminWidgetController extends Controller
         			}
         		}
         		else if($oWidgetInstance && $oWidgetInstance->pw_id){
-		        	$aValues = $oWidgetInstance->param_values; 
-		        	
+		        	$aValues = $oWidgetInstance->param_values;
+
         			foreach($aSettings as $sKey => $aSetting)
         			{
         				if(isset($aValues[$sKey]))
@@ -163,7 +163,7 @@ class AdminWidgetController extends Controller
         				}
         			}
 		        }
-        		
+
         	}
         }
         $this->view->aSettings = $aSettings;
@@ -171,6 +171,17 @@ class AdminWidgetController extends Controller
         $this->view->pwid = $iPWid;
         $this->view->iPopupId = $this->request()->get('popup_id');
         $this->view->sHash = $sHash;
+        $sCustomTemplate = $oWidget->params_template;
+        if(!empty($sCustomTemplate))
+        {
+        	$oPlugin = $this->helper->getPlugin('core','AdminWidget');
+        	if($oPlugin && method_exists($oPlugin, "getWidgetOptionTemplate"))
+        	{
+        		$sCustomTemplate = $oPlugin->getWidgetOptionTemplate($oWidget->toArray());
+        	}
+        	//d($sCustomTemplate);die();
+        }
+        $this->view->sCustomTemplate = $sCustomTemplate;
     }
 
 }

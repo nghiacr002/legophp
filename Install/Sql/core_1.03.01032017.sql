@@ -10,7 +10,6 @@ CREATE TABLE IF NOT EXISTS `#_#####_#category` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 ---------------------------------------
 
-
 ---------------------------------------
 CREATE TABLE IF NOT EXISTS `#_#####_#country` (
   `country_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -371,7 +370,35 @@ INSERT INTO `#_#####_#layout` VALUES("1","Page 3 Columns","Layout3Column.tpl","1
 ("4","Page 3 Columns - Big Middle (2)","Layout3ColumnMiddleBig2.tpl","1","1","","1"),
 ("5","Page 2 Columns - Big Left","Layout2ColumnBigLeft.tpl","1","1","","0"),
 ("6","Page 2 Columns - Big Right","Layout2ColumnBigRight.tpl","1","1","","0"),
-("7","Page 2 Columns","Layout2Column.tpl","1","1","","0");
+("7","Page 2 Columns","Layout2Column.tpl","1","1","","0"),
+("8","nice to","layout-design-1478576321.tpl","1","1","		        <div class=\"row-design\">
+    <div class=\"page-location-header\">
+        <span>
+            Global Header
+            <span>
+                <a href=\"javascript:void(0);\" class=\"hide_on_this_page h-header\" df=\"0\" t=\"header\">
+                 
+                	Hide on this page
+                                </a>
+            </span>
+        </span>
+    </div>
+    <div class=\"col-md-12  col-sm-12 main-contain-wrapper frame-wrapper ui-sortable\" id=\"page-design-skeleton\">
+       			
+    <div class=\"frame-item col-md-11  col-sm-11 col-xs-11 frame-wrapper-child\">{{ Location(1) }}</div><div class=\"frame-item col-md-9  col-sm-9 col-xs-9 frame-wrapper-child\">{{ Location(2) }}</div><div class=\"frame-item col-md-5  col-sm-5 col-xs-5 frame-wrapper-child\">{{ Location(3) }}</div></div>
+    <div class=\"page-location-footer\">
+        <span>
+            Global Footer
+            <span>
+                <a href=\"javascript:void(0);\" class=\"hide_on_this_page h-footer\" df=\"0\" t=\"footer\">
+                	 
+	                	Hide on this page
+	                                </a>
+            </span>
+        </span>
+    </div>
+</div>
+		    ","0");
 ---------------------------------------
 
 ---------------------------------------
@@ -398,7 +425,7 @@ CREATE TABLE IF NOT EXISTS `#_#####_#layout_widgets` (
   `ordering` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`pw_id`),
   KEY `item_id` (`item_id`,`item_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 ---------------------------------------
 
 ---------------------------------------
@@ -704,7 +731,7 @@ CREATE TABLE IF NOT EXISTS `#_#####_#user` (
   `extra_permission` text,
   `session_login` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=69 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
 ---------------------------------------
 
 ---------------------------------------
@@ -727,7 +754,7 @@ CREATE TABLE IF NOT EXISTS `#_#####_#user_group` (
   `is_active` tinyint(4) NOT NULL DEFAULT '1',
   `total_member` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_group_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 ---------------------------------------
 
 ---------------------------------------
@@ -748,6 +775,15 @@ CREATE TABLE IF NOT EXISTS `#_#####_#widgets` (
   `module_name` varchar(255) NOT NULL,
   `params` text,
   `can_remove` int(3) NOT NULL DEFAULT '1',
+  `params_template` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`widget_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+---------------------------------------
+
+---------------------------------------
+INSERT INTO `#_#####_#widgets` VALUES("1","blog.featured_blog","blog/featured","blog","{\"title\":{\"type\":\"text\",\"value\":\"\",\"title\":\"core.title\"},\"limit\":{\"type\":\"text\",\"value\":\"\",\"title\":\"core.limit\"}}","1",""),
+("2","blog.recent_blog","blog/recent","blog","{\"title\":{\"type\":\"text\",\"value\":\"\",\"title\":\"core.title\"},\"limit\":{\"type\":\"text\",\"value\":\"\",\"title\":\"core.limit\"}}","1",""),
+("3","page.widget_html","page/html","page","{\"title\":{\"type\":\"text\",\"value\":\"\",\"title\":\"core.title\"},\"html_content\":{\"type\":\"editor\",\"value\":\"\",\"title\":\"core.content\"}}","0",""),
+("4","page.page_content","page/content","page","","0",""),
+("5","core.slider","core/slider","core","{\"title\":{\"type\":\"text\",\"value\":\"\",\"title\":\"core.title\"},\"images\":{\"type\":\"slider\",\"value\":\"\",\"title\":\"core.slider\"}}","0","slider");
 ---------------------------------------

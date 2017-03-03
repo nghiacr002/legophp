@@ -1,10 +1,13 @@
 var debug_item;
-var CAPPEDITOR = function(element){
+var CAPPEDITOR = function(element,container){
 	this.element = element; 
+	this.container = container; 
 };
 CAPPEDITOR.prototype.insertContent = function(content){
 	console.log(content); 
 }
+CAPPEDITOR.prototype.onChooseCallBack = null; 
+
 CORE = {
     params: {},
     phrases: {},
@@ -105,8 +108,9 @@ CORE = {
         }
 
     },
-    showFileManager: function (editor) {
+    showFileManager: function (editor,itemtype) {
         debug_item = editor;
+        
         var dlg = bootbox.dialog({
             size: 'large',
             className: 'file-manager-box',
@@ -116,29 +120,35 @@ CORE = {
                 success: {
                     label: "Choose",
                     className: "btn-success",
-                    callback: function () {
-                        var list = CORE.fileManager.getSelectedFiles();
-
-                        if (list.length > 0) {
-                            for (i = 0; i < list.length; i++) {
-                                var item = list[i];
-                                var html = '';
-                                if (typeof item.thumb != 'undefined') {
-                                    html = '<p class="inline-image"><img src="' + item.url + '"/><span class="image-label">' + item.title + '</span></p>';
-                                } else {
-                                    html = '<p class="inline-attachment"><a href="' + item.url + '">' + item.title + '</a></p>';
-                                }
-                                editor.insertContent(html);
-                            }
-                        }
-                    }
+                    callback: function(){
+						var list = CORE.fileManager.getSelectedFiles();
+						if(typeof(editor.onChooseCallBack) == "function"){
+							return editor.onChooseCallBack.call(editor,list);
+						}
+						if (list.length > 0) {
+							for (i = 0; i < list.length; i++) {
+								var item = list[i];
+								var html = '';
+								if (typeof item.thumb != 'undefined') {
+									html = '<p class="inline-image"><img src="' + item.url + '"/><span class="image-label">' + item.title + '</span></p>';
+								} else {
+									html = '<p class="inline-attachment"><a href="' + item.url + '">' + item.title + '</a></p>';
+								}
+								editor.insertContent(html);
+							}
+						}
+					}
                 }
             }
         });
+        var file_url = CORE.params['sBaseUrl'] + 'core/media/browse?mode=explorer';
+        if(itemtype){
+			file_url += '&type=' + itemtype;
+		}
         dlg.init(function(){
             setTimeout(function(){
                 CORE.fileManager = $('#file-manager-holder').fxMediaManager({
-                url: CORE.params['sBaseUrl'] + 'core/media/browse?mode=explorer',
+                url: file_url,
                 height: 350,
                 views: 'thumbs',
                 insertButton: true,
@@ -273,7 +283,7 @@ CORE.POPUP = {
     },
     close: function (popup_id) {
         var dialog = this.getDialog(popup_id);
-        console.log(dialog);
+        
         if (dialog) {
             dialog.modal('hide');
             $(dialog).trigger('escape');

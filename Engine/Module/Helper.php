@@ -11,7 +11,8 @@ class Helper extends Object
     {
         if ($bKeepInMemory && isset($this->_aDataInMemory[$sFunction]))
         {
-            return $this->_aDataInMemory[$sFunction];
+        	$oObject = $this->_aDataInMemory[$sFunction];
+            return $oObject->{$sFunction}($aParams);
         }
         $aResults = array();
         if (!$aForceModules)
@@ -33,9 +34,17 @@ class Helper extends Object
             foreach ($aForceModules as $iKey => $sModuleName)
             {
                 //$sModuleName = ucfirst($sModuleName);
+                if(!$this->app->module->checkActive($sModuleName))
+                {
+                	continue;
+                }
                 $oBootstrap = Component::factory($sModuleName, "Bootstrap", "");
                 if ($oBootstrap && method_exists($oBootstrap, $sFunction))
                 {
+                	if($bKeepInMemory)
+                	{
+                		$this->_aDataInMemory[$sFunction] = $oBootstrap;
+                	}
                     $aResult = $oBootstrap->{$sFunction}($aParams);
                     if (isset($aParams['group_item']) && $aParams['group_item'] == true)
                     {
@@ -49,5 +58,15 @@ class Helper extends Object
         }
         return $aResults;
     }
-
+	public function getPlugin($sModuleName, $sPluginName)
+	{
+		$sFileName = APP_MODULE_PATH . ucfirst($sModuleName) . APP_DS . "Plugin" . APP_DS. $sPluginName.'.php';
+		if(file_exists($sFileName))
+		{
+			require_once $sFileName;
+			$oClass = new $sPluginName();
+			return $oClass;
+		}
+		return null;
+	}
 }

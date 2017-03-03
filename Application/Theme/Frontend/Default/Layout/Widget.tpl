@@ -1,5 +1,5 @@
 {% block content %}
-<div id="widget_{{wid}}" class="widget">
+<div id="widget-{{wid}}" class="widget">
 	{% if sTitle %}
     <div class="title">{{ sTitle|raw }}</div>
     {% endif %}
