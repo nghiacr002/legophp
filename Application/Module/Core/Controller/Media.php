@@ -14,7 +14,7 @@ class MediaController extends Controller
 
     private $_aDefaultFolder = array(
     );
-
+	private $_sCurrentUserPath = null ;
     public function __construct()
     {
         parent::__construct();
@@ -52,6 +52,7 @@ class MediaController extends Controller
         if (!empty($sPath))
         {
             $sFullPath = APP_UPLOAD_PATH . $sPath;
+
             $sBaseName = basename($sFullPath);
             if ($sSize == "origin")
             {
@@ -68,7 +69,8 @@ class MediaController extends Controller
             else
             {
                 $sSubPath = str_replace($sBaseName, "", $sPath);
-                $sThumbPath = APP_UPLOAD_PATH . "Image" . APP_DS . "Thumb" . APP_DS;
+                $sThumbPath = $this->getUserUploadPath() . APP_DS . "Thumb" . APP_DS;
+				//d($sSubPath);die();
                 if (file_exists($sFullPath))
                 {
                     $sType = "scale";
@@ -140,40 +142,63 @@ class MediaController extends Controller
             'status' => 0,
             'message' => $this->language()->translate('core.no_uploaded_file'),
         );
-        $bHasPerm = $this->auth()->acl()->hasPerm('core.can_access_module_page');
+        $bHasPerm = $this->auth()->acl()->hasPerm('core.can_upload_file');
         if (!$bHasPerm)
         {
             $aResult['message'] = $this->language()->translate('core.you_does_not_have_permission_to_access_this_area');
-        } else
+        }
+        else
         {
             if (isset($_FILES['filemanager']))
             {
-                $sPath = $this->request()->get('pathUpload');
+            	$sPath = $this->request()->get('pathUpload');
                 if (empty($sPath))
                 {
-                    $sPath = APP_UPLOAD_PATH;
+                	$sPath = $this->getUserUploadPath();
                 }
-                $sCheckReplacePath = str_replace(APP_UPLOAD_PATH, '', $sPath);
-                if (!empty($sPath) && (empty($sCheckReplacePath) || $sPath != $sCheckReplacePath ))
+                else
+                {
+                	$sPath = APP_UPLOAD_PATH . $sPath. APP_DS;
+                }
+                if ($this->IsUploadedPath($sPath))
                 {
                     $sNewFileName = $oFile->upload('filemanager', $sPath);
                     $aFile = $oFile->getFileInfo();
+
                     if (($sNewFileName))
                     {
-                        $oImage = new Image();
+
                         $aResult['status'] = 1;
                         $aResult['message'] = "";
                         $aResult['title'] = $aFile['name'];
                         $sFullPath = $sPath . APP_DS . $sNewFileName;
                         if (Utils::isImage($sFullPath))
                         {
+                        	$oImage = new Image();
                             $aResult['thumb'] = $oImage->getThumbUrl($sFullPath, 'medium-square');
+                            $aResult['original'] = $oImage->getThumbUrl($sFullPath, 'origin');
                         }
                         $aResult['absolute_path'] = str_replace(APP_UPLOAD_PATH, "", $sFullPath);
-                        /*if ($aFile['absolute_path'] == APP_PUBLIC_PATH)
+                        //$iUserId = 0;
+
+                        /*if($oCurrentUser)
                         {
-                        	continue;
-                        }*/
+                        	$iUserId = $oCurrentUser->user_id;
+                        }
+                        $oNewMedia = (new Media())->getTable()->createRow();
+                        $oNewMedia->media_title = $aFile['name'];
+                        $oNewMedia->owner_id = $iUserId;
+                        $oNewMedia->destination = $aResult['absolute_path'];
+                        $oNewMedia->uploaded_time = APP_TIME;
+                        $oNewMedia->file_type = isset($aFile['file_ext']) ? $aFile['file_ext'] : ($oFile->getExt($sNewFileName));
+						$oNewMedia->meta_file = $aFile;
+						try{
+							$oNewMedia->save();
+						}catch(\Exception $ex)
+						{
+
+						}*/
+
                     } else
                     {
                         $aResult['message'] = $oFile->getErrorFile($aFile['error']);
@@ -223,15 +248,44 @@ class MediaController extends Controller
         }
         return true;
     }
-
+	private function getUserUploadPath()
+	{
+		if(!$this->_sCurrentUserPath)
+		{
+			$this->_sCurrentUserPath = "";
+			$sBaseFolder = "anonymous" . APP_DS;
+			$oViewer =$this->auth()->getViewer();
+            if($oViewer && $oViewer->user_id){
+            	$sBaseFolder = "user-". $oViewer->user_id. APP_DS;
+            }
+            $sPath = APP_UPLOAD_PATH . $sBaseFolder ;
+			$this->_sCurrentUserPath = $sPath;
+		}
+		return $this->_sCurrentUserPath;
+	}
     private function IsUploadedPath($sPath)
     {
-        $sCheckReplacePath = str_replace(APP_UPLOAD_PATH, '', $sPath);
-        if (empty($sCheckReplacePath) || $sPath != $sCheckReplacePath)
+    	if(empty($sPath))
+    	{
+    		return false;
+    	}
+    	//check base path;
+    	$sBasePathCheck = str_replace(APP_UPLOAD_PATH, "", $sPath);
+    	if($sPath == $sBasePathCheck)
+    	{
+    		return false;
+    	}
+    	if($this->auth()->acl()->hasPerm('core.can_access_all_upload_folder'))
+    	{
+    		return true;
+    	}
+    	$sUserUploadPath = $this->getUserUploadPath();
+        $sCheckReplacePath = str_replace($sUserUploadPath, '', $sPath);
+        if($sPath == $sCheckReplacePath)
         {
-            return true;
+			return false;
         }
-        return false;
+        return true;
     }
 
     public function PreviewAction()

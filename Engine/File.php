@@ -48,7 +48,8 @@ class File extends FileManager
 				'perm' => '',
 				'full_path' => $sFileName,
 				'file_size_view' => 'N/A',
-				'time_view' => 'N/A'
+				'time_view' => 'N/A',
+				'file_ext' => $this->getExt($sFileName),
 		);
 		$aFile ['file_size_view'] = $this->convertFileSize ( $aFile ['size'] );
 		$aFile ['time_view'] = $this->getTime ( $aFile ['time'] );

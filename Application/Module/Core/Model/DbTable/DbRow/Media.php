@@ -16,5 +16,10 @@ class Media extends DbRow
     {
         return "";
     }
-
+	public function beforeSave()
+	{
+		$aMeta = isset($this->_aData['meta_file']) ? $this->_aData['meta_file']: array();
+		$this->_aData['meta_file'] = serialize($aMeta);
+		return $this;
+	}
 }

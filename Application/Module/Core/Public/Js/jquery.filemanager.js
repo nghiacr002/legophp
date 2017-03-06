@@ -404,16 +404,18 @@
                 }
             }
             upload_opts.onSuccess = function(files, data, xhr, pd) {
+				console.log(data);
                 data = data.trim();
                 data = $.parseJSON(data);
                 var hash = self.getHash(data.title);
                 $('.item-data-' + hash).removeClass('mode-uploading').addClass('mode-normal');
                 $('.item-data-' + hash).find('.overlay').remove();
-                console.log('onSuccess Upload'); 
-                console.log(data); 
+               
                 if (data.thumb) {
                     $('.item-data-' + hash).find('.item-content').html('<img src="' + data.thumb + '" alt=""/>');
                 }
+                $('.item-data-' + hash).find('input.item-checkbox').val(data.absolute_path);
+                $('.item-data-' + hash).find('input.item-checkbox').attr('url',data.original);
             };
             upload_opts.afterUploadAll = function(obj) {
                 self.bind();

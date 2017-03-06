@@ -75,5 +75,9 @@ class Utils
     {
         return (new Image())->getThumbUrl($sPath,$sSize);
     }
-
+	public static function get_alpha_numberic_key($sKey)
+	{
+		$result = preg_replace("/[^a-zA-Z0-9]+/", "", $$sKey);
+		return $result;
+	}
 }

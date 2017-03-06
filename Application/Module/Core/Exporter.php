@@ -50,7 +50,6 @@ class Exporter extends \APP\Engine\Module\Exporter
 			'user_group' => array ('no-data' => true),
 			'user_group_permission' => array ('no-data' => true),
 			'widgets' => array (
-					'no-data' => true
 			)
 	);
 }
