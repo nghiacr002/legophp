@@ -5,6 +5,7 @@ namespace APP\Application\Module\User\Model\DbTable\DbRow;
 use APP\Engine\Database\DbRow;
 
 use APP\Engine\Image;
+use APP\Application\Module\User\Model\Group;
 class User extends DbRow
 {
 
@@ -26,6 +27,14 @@ class User extends DbRow
     }
     public function user_image_url()
     {
-    	return (new Image())->getThumbUrl("User/" . $this->user_image, 'small-size');
+    	return (new Image())->getThumbUrl("user-".$this->user_id."/" . $this->user_image, 'small-size');
+    }
+    public function isAdmin()
+    {
+    	if(!isset($this->_aData['main_group_id']))
+    	{
+    		return false;
+    	}
+    	return ($this->_aData['main_group_id'] === Group::ADMINISTRATOR);
     }
 }

@@ -6,6 +6,7 @@ use APP\Engine\HTML\Form as HtmlForm;
 use APP\Engine\Validator;
 use APP\Engine\HTML\Input;
 use APP\Engine\HTML\Checkbox;
+use APP\Application\Module\User\Model\User;
 
 class Register extends HtmlForm
 {
@@ -22,6 +23,13 @@ class Register extends HtmlForm
         $oInput->setErrorMessage($this->app->language->translate('core.fullname_cannot_be_empty'));
         $this->addElement($oInput);
 
+        $oInput = new Input();
+        $oInput->setName("user_name");
+        $oInput->setValue($this->app->request->get('user_name'));
+        $oInput->required(true);
+        $oInput->setErrorMessage($this->app->language->translate('user.user_name_cannot_be_empty'));
+
+        $this->addElement($oInput);
         $oInput = new Input();
         $oInput->setName("email");
         $oInput->setValue($this->app->request->get('email'));

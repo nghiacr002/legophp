@@ -20,7 +20,7 @@ class User extends Model
         parent::__construct();
     }
 
-    public function getOne($mValue, $mTableKey = null, $bCache = true)
+    public function getOne($mValue, $mTableKey = null, $bCache = false)
     {
         if ($bCache)
         {

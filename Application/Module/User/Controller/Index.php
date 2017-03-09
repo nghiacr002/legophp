@@ -24,17 +24,20 @@ class IndexController extends Controller
 
     }
 
-    public function InfoAction()
-    {
-        $oUser = new User();
-        $user_id = $this->request()->get('id');
-        $user = $oUser->getOne($user_id, null, false);
-        $this->view->user = $user;
-    }
-
     public function ForgotAction()
     {
-
+    	if ($this->auth()->isAuthenticated())
+    	{
+    		$this->router()->url()->redirect('');
+    	}
+		if($this->request()->isPost())
+		{
+			$sEmail = $this->request()->get('email');
+			if($sEmail)
+			{
+				(new UserAuth())->forgotPassword($sEmail);
+			}
+		}
     }
 
     public function LogoutAction()
@@ -123,7 +126,6 @@ class IndexController extends Controller
                     list($sHash, $sHashedPassword) = $oUserAuth->getHash($oNewUser->password);
                     $oNewUser->password = $sHashedPassword;
                     $oNewUser->hash = $sHash;
-                    $oNewUser->user_name = $oNewUser->email;
                     $oNewUser->joined_day = APP_TIME;
                     if ($oNewUser->isValid())
                     {
@@ -148,6 +150,10 @@ class IndexController extends Controller
 
                                 $this->url()->redirect($this->app->getBaseURL());
                             }
+                            else
+                            {
+                            	$this->app->flash->set($this->language()->translate('user.your_account_has_been_created'));
+                            }
                         }
                     } else
                     {
@@ -170,6 +176,9 @@ class IndexController extends Controller
         }
         $this->view->registerForm = $oRegisterForm;
         $this->view->bIsModeInstall = $bIsModeInstall;
+        $this->template()->setHeader(array(
+        	'register.js' => 'module_user'
+        ));
     }
 
 }

@@ -11,6 +11,9 @@ class Theme extends DbRow
 	private $_oDefaultLayout = null;
     public function getLogoPath()
     {
+    	if(empty($this->logo)){
+    		return null;
+    	}
     	return (new Url())->makeUrl('image/origin',array('path' => $this->logo));
     }
     public function getDefaultLayout()

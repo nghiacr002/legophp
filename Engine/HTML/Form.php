@@ -54,7 +54,14 @@ class Form extends Element
         $this->_aElements[$oElement->getId()] = $oElement;
         return $this;
     }
-
+	public function removeElement($sId)
+	{
+		if(isset($this->_aElements[$sId]))
+		{
+			unset($this->_aElements[$sId]);
+		}
+		return $this;
+	}
     public function isValid()
     {
         $bValid = true;

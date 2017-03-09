@@ -40,13 +40,13 @@
                 <!-- /.col -->
             </div>
         </form>
-
+		<!-- 
         <div class="social-auth-links text-center">
             <p>- OR -</p>
             <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> {{ Translate('core.sign_in_using_provider',{"provider":"Facebook"}) }}</a>
             <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> {{ Translate('core.sign_in_using_provider',{"provider":"Google +"}) }}</a>
         </div>
-
+ -->
         <a href="{{ Template_Url('user/forgot') }}">{{ Translate('core.i_forgot_my_password') }}</a><br>
         <a href="{{ Template_Url('user/register') }}" class="text-center">{{ Translate('core.register_a_new_membership') }}</a>
 

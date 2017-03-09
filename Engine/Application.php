@@ -260,13 +260,8 @@ class Application {
 						$this->module->set ( $sModule, $sController, $sAction );
 						$this->module->setInstanceController($oController);
 						$oController->{$sActionName} ();
-
-						$this->template->detectLayout ();
-						$oController = $this->module->getInstanceController();
-						$sAction = $this->module->getCurrentAction();
-						$sContent = $oController->getContent ( $sAction );
-						$this->render ( $sContent );
-						$this->clean ();
+						$this->render();
+						$this->clean();
 					} else {
 						throw new AppException ( "ACTION[" . $sModule . '.' . $sController . '.' . $sAction . "] NOT FOUND", HTTP_CODE_NOT_FOUND );
 					}
@@ -278,7 +273,15 @@ class Application {
 			throw new AppException ( "UNKNOW ROUTER", HTTP_CODE_NOT_FOUND );
 		}
 	}
-	public function render($sContent) {
+	public function render()
+	{
+		$this->template->detectLayout ();
+		$oController = $this->module->getInstanceController();
+		$sAction = $this->module->getCurrentAction();
+		$sContent = $oController->getContent ( $sAction );
+		return $this->_render($sContent);
+	}
+	protected function _render($sContent) {
 		// check if has layout extends for body view
 		if ($this->template->isInLegoMode ()) {
 			$sSiteContent = $this->template->getLayout ()->buildContent ( $sContent );

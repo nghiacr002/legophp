@@ -4,7 +4,11 @@
     <div class="col-xs-12">
         <div class="box box-primary">
             <div class="box-header with-border">
+            	{% if bIsEdit %}
+            	<h3 class="box-title">{{ Translate('user.edit_user') }}</h3>
+            	{% else %}
                 <h3 class="box-title">{{ Translate('user.add_new_user') }}</h3>
+                {% endif %}
             </div>
             {{ oFormAdminAddUser.start({"action": sFormUrl,"method":"post","id": "form-user-infor","enctype":"multipart/form-data"} ) }}
             <div class="box-body">

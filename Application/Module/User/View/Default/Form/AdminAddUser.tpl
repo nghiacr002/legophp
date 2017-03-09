@@ -24,11 +24,16 @@
     <label for="email">{{ form.element('email').hasRequired() }} {{ Translate('user.email') }}</label> 
     <input type="email" id="full_name" class="form-control" name="email" value="{{ form.element('email').getValue() }}" >
 </div>
+{% if form.element('password') %}
 <div class="form-group">
     <label for="password">{{ form.element('password').hasRequired() }} {{ Translate('user.password') }}</label> 
     <input type="password" name="password" id="password" class="form-control">
 </div>
-
+{% endif %}
+<div class="form-group">
+    <label for="birthday">{{ form.element('address').hasRequired() }} {{ Translate('user.address') }}</label> 
+    <input type="text" name="address" id="address" class="form-control" value="{{ form.element('address').getValue() }}">
+</div>
 <div class="form-group">
     <label for="birthday">{{ form.element('birthday').hasRequired() }} {{ Translate('user.birthday') }}</label> 
     <input type="text" name="birthday" id="birthday" class="form-control" value="{{ form.element('birthday').getValue() }}">
@@ -37,6 +42,7 @@
     <label for="user_text">{{ form.element('user_text').hasRequired() }} {{ Translate('user.user_text') }}</label> 
     <textarea name="user_text" id="user_text" class="form-control">{{ form.element('user_text').getValue() }}</textarea>
 </div>
+{% if form.element('main_group_id') %}
 <div class="form-group">
     <label for="url">{{ form.element('main_group_id').hasRequired() }}  {{ Translate('user.group') }}</label>
     <select class="form-control" name="main_group_id">
@@ -45,7 +51,8 @@
         {% endfor %}
     </select>
 </div>
-
+{% endif %}
+{% if form.element('status') %}
 <div class="form-group">
     <label for="url">{{ Translate('core.is_active') }}</label>
     <div>
@@ -53,4 +60,4 @@
                name="status" value="1" {% if form.element('status').getValue() %} checked {% endif %}>
     </div>
 </div>
-
+{% endif %}

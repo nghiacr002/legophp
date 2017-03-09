@@ -97,7 +97,11 @@ class Auth extends Login
         $this->_bIsLogin = $bIsLogin;
         return $bIsLogin;
     }
-
+	public function forgotPassword($sEmail)
+	{
+		//not implement now
+		return true;
+	}
     public function getHash($sPassword, $sHash = "")
     {
         $sRandom = \APP\Engine\Application::getInstance()->getConfig('security', 'random');

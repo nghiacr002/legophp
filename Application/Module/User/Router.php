@@ -1,11 +1,11 @@
 <?php
 
-/*$_ROUTER['default'] = array(
-	'core_homeindex' => array(
-		'route' => '/',
-		'controller' => 'index',
-		'action' => 'index',
-		'module' => 'core',
-		'params' => array(),
+$_ROUTER['default'] = array(
+	'user_profile_view' => array(
+		'route' => '[*:slug]',
+        'controller' => 'profile',
+        'action' => 'view',
+        'module' => 'user',
+        'params' => array(),
 	),
-);*/
+);

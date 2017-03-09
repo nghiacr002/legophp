@@ -18,12 +18,16 @@
         </p>
         {% endif %}
 		{%if bIsModeInstall %}
-        	<form action="{{ Template_Url('user/register',{mode:'install'})}}" method="post" id="{{ registerForm.getId() }}">
+        	<form action="{{ Template_Url('user/register',{mode:'install'})}}" method="post" id="{{ registerForm.getId() }}" >
         {% else %}
         	<form action="{{ Template_Url('user/register')}}" method="post" id="{{ registerForm.getId() }}">
         {% endif %}
             <div class="form-group has-feedback">
-                <input type="text" class="form-control" placeholder="Full name" name="full_name" id="fullname" required value="{{ registerForm.full_name.getValue() }}">
+                <input type="text" class="form-control" placeholder="{{ Translate('user.full_name')}}" name="full_name" id="fullname" required value="{{ registerForm.full_name.getValue() }}">
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+              <div class="form-group has-feedback">
+                <input type="text" class="form-control" placeholder="{{ Translate('user.user_name')}}" name="user_name" id="user_name" required value="{{ registerForm.user_name.getValue() }}">
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
@@ -51,12 +55,13 @@
                 <!-- /.col -->
             </div>
         </form>
-
+		<!-- 
         <div class="social-auth-links text-center">
             <p>- OR -</p>
             <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> {{ Translate('core.sign_up_using_provider',{"provider":"Facebook"}) }}</a>
             <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> {{ Translate('core.sign_up_using_provider',{"provider":"Google +"}) }}</a>
         </div>
+         -->
         <a href="{{ Template_Url('user/login') }}" class="text-center">{{ Translate('core.i_already_have_a_membership') }}</a>
     </div>
     <!-- /.form-box -->

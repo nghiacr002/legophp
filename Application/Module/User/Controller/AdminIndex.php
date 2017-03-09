@@ -23,7 +23,7 @@ class AdminIndexController extends Controller
 
     public function IndexAction()
     {
-        
+
     }
 
     public function DeleteAction()
@@ -50,7 +50,7 @@ class AdminIndexController extends Controller
     public function EditAction()
     {
         $this->auth()->acl()->hasPerm('core.can_edit_user', true);
-        
+
         $oUserModel = new UserModel();
         $iUserId = $this->request()->get('id');
         $this->view->oExitUser = $oExitUser = $oUserModel->getOne($iUserId);
@@ -59,7 +59,7 @@ class AdminIndexController extends Controller
             $this->app->flash->set($this->language()->translate('user.user_does_not_exist'));
             $this->url()->redirect('user/browse', array('admincp' => true));
         }
-        
+
         $oFormAdminAddUser = new AdminAddUserForm();
         $this->view->oFormAdminAddUser = $oFormAdminAddUser;
         if ($this->request()->isPost())
@@ -70,7 +70,7 @@ class AdminIndexController extends Controller
                 {
                     $oUserAuth = new UserAuth();
                     $aData = $oFormAdminAddUser->getFormValues();
-                    
+
                     $aData['user_id'] = $iUserId;
                     $oExitUser->setData($aData);
                     if (isset($aData['password']))
@@ -97,11 +97,11 @@ class AdminIndexController extends Controller
                     Logger::error($ex);
                     $this->flash()->set($this->language()->translate('core.there_are_some_problems_with_system_please_try_again'), "system", 'error');
                 }
-            } 
+            }
             else
             {
                 $aMessages = $oFormAdminAddUser->getMessages();
-                
+
                 foreach ($aMessages as $sId => $sMessage)
                 {
                     $this->flash()->set($sMessage, $sId, 'error');
@@ -119,7 +119,7 @@ class AdminIndexController extends Controller
             'admin_user.js' => 'module_user',
             'admin_user.css' => 'module_user',
         ));
-
+		$this->view->bIsEdit = true;
         $sUrl = $this->url()->makeUrl('user/browse', array('admincp' => true));
         $aBreadCrumb = array(
             'title' => $this->language()->translate('user.user'),

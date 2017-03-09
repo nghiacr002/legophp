@@ -37,9 +37,7 @@ class AdminAddUser extends HtmlForm
 
         $oInput = new Input();
         $oInput->setName("user_title");
-        //$oInput->setValue($this->request()->get('user_title'));
-        $oInput->required(true);
-        $oInput->setErrorMessage($this->app->language->translate('core.user_title_cannot_be_empty'));
+
         $this->addElement($oInput);
 
         $oInput = new Input();
@@ -65,6 +63,11 @@ class AdminAddUser extends HtmlForm
         //$oInput->setValue($this->request()->get('birthday'));
         $this->addElement($oInput);
 
+        $oInput = new Input();
+        $oInput->setName("address");
+        //$oInput->setValue($this->request()->get('birthday'));
+        $this->addElement($oInput);
+
         $oInput = new Select();
         $oInput->setName("main_group_id");
         //$oInput->setValue($this->request()->get('main_group_id'));
@@ -84,7 +87,7 @@ class AdminAddUser extends HtmlForm
         $oInput->setName('user_text');
         $oInput->setValue($this->request()->get('user_text'));
         $this->addElement($oInput);
-        
+
         $oInput = new File();
         $oInput->setName('user_image');
         $oInput->setFileType(array(
@@ -95,20 +98,25 @@ class AdminAddUser extends HtmlForm
         {
         	if ($_FILES && $oInput->validateFileType())
         	{
-        
         		$oFile = new FileManager();
-        		$sUploadedFile = $oFile->upload($oInput->getName(), APP_UPLOAD_PATH . "User" . APP_DS);
+        		$iUserId = $this->request()->get('id');
+        		$oViewer = $this->app->auth->getViewer();
+        		if(!$iUserId && $oViewer)
+        		{
+        			$iUserId = $oViewer->user_id;
+        		}
+        		$sUploadedFile = $oFile->upload($oInput->getName(), APP_UPLOAD_PATH . "user-".$iUserId . APP_DS);
         		if ($sUploadedFile)
         		{
-        			$oInput->setValue($sUploadedFile);
-        		} 
+        			$oInput->setValue( $sUploadedFile);
+        		}
         		else
         		{
         			$aFileInfo = $oFile->getFileInfo();
         			$sMessage = $oFile->getErrorFile($aFileInfo['error']);
         			if ($sMessage)
         			{
-        				$oInput->setErrorMessage($sMessage)->setMessage($sMessage);
+        				$oInput->setErrorMessage($sMessage);//->setMessage($sMessage);
         			}
         		}
         	}
@@ -116,9 +124,12 @@ class AdminAddUser extends HtmlForm
         	{
         		$oInput->setValue("");
         		$oInput->setMessage("");
+        		$oInput->forceValid(true);
+        		$this->removeElement('user_image');
         	}
         }
-        
+
+
     }
 
 }

@@ -11,6 +11,9 @@ class Bootstrap extends ModuleBootstrap
     protected function initTemplate()
     {
         $aJsPhrase['theme.add_new_html_widget'] = $this->app->language->translate('theme.add_new_html_widget');
+        $aJsPhrase['user.user_name_contain_illegal_characters'] = $this->app->language->translate('user.user_name_contain_illegal_characters');
+        $aJsPhrase['user.user_name_cannot_be_empty'] = $this->app->language->translate('user.user_name_cannot_be_empty');
+        $aJsPhrase['theme.user_name_wrong_length'] = $this->app->language->translate('user.user_name_wrong_length');
         $this->app->template->setJsPhrase($aJsPhrase);
     }
 
