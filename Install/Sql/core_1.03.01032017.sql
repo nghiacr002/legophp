@@ -615,6 +615,7 @@ CREATE TABLE IF NOT EXISTS `#_#####_#request_token` (
   `verified_time` int(11) DEFAULT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '0',
   `request_type` varchar(255) NOT NULL DEFAULT 'user_verification',
+  `params` TEXT NULL,
   PRIMARY KEY (`token_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 ---------------------------------------
