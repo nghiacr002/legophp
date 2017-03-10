@@ -31,6 +31,7 @@ class Application {
 	public $flash;
 	public $cookie;
 	public $event;
+	public $mailer;
 	/* * *** */
 	public function __construct($aConfigs = null) {
 		self::$instance = $this;
@@ -98,7 +99,7 @@ class Application {
 		$this->flash = new \APP\Engine\Flash ();
 		$this->request = new \APP\Engine\Request ();
 		$this->router = new \APP\Engine\Router ();
-
+		$this->mailer = new \APP\Engine\Mailer();
 		$iIndexSeg = 0;
 		if (! empty ( $this->_aConfigs ['system'] ['base_path'] )) {
 			$iIndexSeg = 1;

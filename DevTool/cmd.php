@@ -74,7 +74,11 @@ class DEVTOOLS
 	{
 		return isset ( $this->_aParams [$sName] ) ? $this->_aParams [$sName] : "";
 	}
-
+	public function releaseCoreEngine()
+	{
+		$this->_aParams['exclude-module'] = "Blog";
+		return $this->releaseApp();
+	}
 	public function releaseApp()
 	{
 		define ( 'LOG_TO_FILE', true );
@@ -174,19 +178,19 @@ class DEVTOOLS
 		$oFile->removeFile($sPath);
 		$sPath = $sReleasePath . APP_DS . "Application" . APP_DS . "Setting" . APP_DS . "Debug.php";
 		$oFile->removeFile($sPath);
-		
+
 		$sFileConfig = $sReleasePath . APP_DS . "Application" . APP_DS . "Setting" . APP_DS. 'Config.default.php';
-		$sCurrentFileDefaultConfig = APP_PATH_SETTING .'Config.default.php'; 
+		$sCurrentFileDefaultConfig = APP_PATH_SETTING .'Config.default.php';
 		include_once $sCurrentFileDefaultConfig;
-		$aConfigs = $_CONF; 
+		$aConfigs = $_CONF;
 		$aConfigs['apps']['version'] = $sNewVersion;
-		$sAppName = $this->get('app-name'); 
+		$sAppName = $this->get('app-name');
 		if(!empty($sAppName))
 		{
 			$aConfigs['apps']['name'] = $sAppName;
 		}
 		$sConfigString = '<?php $_CONF = ' . var_export($aConfigs, true) . '?>';
-		
+
         @file_put_contents($sFileConfig, $sConfigString);
 		// create build.log
 		file_put_contents ( $sReleasePath . APP_DS . 'build.log', implode ( PHP_EOL, $this->aLogContent ) );

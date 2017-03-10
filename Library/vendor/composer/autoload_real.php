@@ -4,21 +4,18 @@
 
 class ComposerAutoloaderInit06ed14f1f2dd18887a0a81c4239fed9d
 {
-
     private static $loader;
 
     public static function loadClassLoader($class)
     {
-        if ('Composer\Autoload\ClassLoader' === $class)
-        {
+        if ('Composer\Autoload\ClassLoader' === $class) {
             require __DIR__ . '/ClassLoader.php';
         }
     }
 
     public static function getLoader()
     {
-        if (null !== self::$loader)
-        {
+        if (null !== self::$loader) {
             return self::$loader;
         }
 
@@ -27,20 +24,17 @@ class ComposerAutoloaderInit06ed14f1f2dd18887a0a81c4239fed9d
         spl_autoload_unregister(array('ComposerAutoloaderInit06ed14f1f2dd18887a0a81c4239fed9d', 'loadClassLoader'));
 
         $map = require __DIR__ . '/autoload_namespaces.php';
-        foreach ($map as $namespace => $path)
-        {
+        foreach ($map as $namespace => $path) {
             $loader->set($namespace, $path);
         }
 
         $map = require __DIR__ . '/autoload_psr4.php';
-        foreach ($map as $namespace => $path)
-        {
+        foreach ($map as $namespace => $path) {
             $loader->setPsr4($namespace, $path);
         }
 
         $classMap = require __DIR__ . '/autoload_classmap.php';
-        if ($classMap)
-        {
+        if ($classMap) {
             $loader->addClassMap($classMap);
         }
 
@@ -48,5 +42,4 @@ class ComposerAutoloaderInit06ed14f1f2dd18887a0a81c4239fed9d
 
         return $loader;
     }
-
 }

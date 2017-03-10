@@ -17,12 +17,19 @@ class Router
         $this->init();
         $this->_oUrl = new Url();
     }
-
+	/**
+	 * Return instance of url engine
+	 * @return \APP\Engine\Url
+	 */
     public function url()
     {
         return $this->_oUrl;
     }
-
+	/**
+	 * Initialize default values
+	 * Running when application is initialized
+	 * @return \APP\Library\FlexRouter
+	 */
     public function init()
     {
         if (!$this->_oInstance)
@@ -32,7 +39,10 @@ class Router
         }
         return $this->_oInstance;
     }
-
+	/**
+	 * Register all of defined routers of new module
+	 * @param string $sModule
+	 */
     public function registerRouter($sModule = "default")
     {
 
@@ -70,16 +80,30 @@ class Router
             }
         }
     }
+    /**
+     * Return the router defination
+     * @param String $sName
+     * @param string $sVersion
+     * @return NULL|mixed
+     */
     public function getRouter($sName, $sVersion = "default")
     {
         return isset($this->_aConfigs[$sVersion][$sName]) ? $this->_aConfigs[$sVersion][$sName] : null;
     }
-
+	/**
+	 * return instance of router;
+	 * @return \APP\Library\FlexRouter
+	 */
     public function instance()
     {
         return $this->_oInstance;
     }
-
+	/**
+	 * Magic function to call unknown/hidden function
+	 * @param unknown $name
+	 * @param array $arguments
+	 * @return mixed|NULL
+	 */
     public function __call($name, $arguments = array())
     {
         if (method_exists($this->_oInstance, $name))
@@ -89,6 +113,16 @@ class Router
         }
         return null;
     }
+    /**
+     * Forward request to other controller
+     * @param array $aRouter
+     * Example: array('module' => 'page',
+				'controller' => 'index',
+				'action' => 'view')
+     * @param array $aParams
+     * @throws AppException
+     * @return boolean
+     */
     public function forward($aRouter, $aParams = array())
     {
     	$app = Application::getInstance();
