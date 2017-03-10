@@ -5,6 +5,9 @@ namespace APP\Application\Module\User\Model;
 use APP\Library\Auth\Method\Login;
 use APP\Application\Module\User\Model\Group as UserGroupModel;
 use APP\Application\Module\User\Model\User as UserModel;
+use APP\Application\Module\User\Model\DbTable\DbRow\RequestToken;
+use APP\Application\Module\User\Model\RequestToken as RequestTokenModel;
+use APP\Engine\Logger;
 
 class Auth extends Login
 {
@@ -100,6 +103,33 @@ class Auth extends Login
 	public function forgotPassword($sEmail)
 	{
 		//not implement now
+		$app = \APP\Engine\Application::getInstance();
+		$mailer = $app->mailer;
+		$sMessage = "";
+		list($sHash,$sToken) = $this->getHash(APP_TIME);
+		try{
+			$oRequestToken = (new RequestTokenModel())->getTable()->createRow();
+
+			$oRequestToken->code = $sToken;
+			$oRequestToken->user_id = 0;
+			$oRequestToken->request_type = 'lost_password';
+			$oRequestToken->status = RequestToken::STATUS_CREATED;
+			$oRequestToken->params = array(
+					'email' => $sEmail
+			);
+			if($oRequestToken->isValid())
+			{
+				$oRequestToken->save();
+			}
+		}catch(\Exception $ex)
+		{
+			Logger::error($ex);
+		}
+		$sURL = $app->router->url()->makeUrl('user/changepassword',array('token' => $sToken));
+		$mailer->to($sEmail);
+		$mailer->subject($app->language->translate('user.lost_password'));
+		$mailer->message($sMessage);
+		$mailer->send();
 		return true;
 	}
     public function getHash($sPassword, $sHash = "")

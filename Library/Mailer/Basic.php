@@ -169,6 +169,15 @@ class Basic
 	{
 		return $this->_mLastError;
 	}
+	public function getParams()
+	{
+		return array(
+			'message' => $this->_sMessage,
+			'subject' => $this->_sSubject,
+			'mTo' => $this->_mTo,
+			'attachments' => $this->_aAttachements
+		);
+	}
 	public function reset()
 	{
 		$this->_aAttachements = array();
@@ -180,4 +189,5 @@ class Basic
 		$this->_mLastError = "";
 		return $this;
 	}
+
 }

@@ -8,6 +8,8 @@ class Mailer
 	protected $_aMailConfigs = array();
 	protected $_oMailer = null;
 	protected $_bIsEnableMailer = true;
+	protected $_sTemplatePath = "";
+	protected $_aParams = array();
 	public function __construct()
 	{
 		$app = \APP\Engine\Application::getInstance();
@@ -42,6 +44,16 @@ class Mailer
 				$oMailer->from($app->getSetting('mail.default_sent_out_email'),$app->getSetting('mail.from_name'));
 			}
 		}
+	}
+	public function template($sTemplateFile)
+	{
+		$this->_sTemplatePath = $sTemplateFile;
+		return $this;
+	}
+	public function params($aParams = array())
+	{
+		$this->_aParams = $aParams;
+		return $this;
 	}
 	public function isEnabled()
 	{
@@ -90,10 +102,27 @@ class Mailer
 	}
 	public function send()
 	{
+		if(!empty($this->_sTemplatePath))
+		{
+			$aParams = $this->_oMailer->getParams();
+			$aParams = array_merge($aParams,$this->_aParams);
+			$sContent = $this->getContentFromTemplate($this->_sTemplatePath, $this->_aParams);
+			$this->_oMailer->message($sContent);
+		}
 		return $this->_oMailer->send();
 	}
 	public function test()
 	{
 		$this->_oMailer->test();die();
+	}
+	public function getContentFromTemplate($sTemplateFile, $aParams = array())
+	{
+		if(!file_exists($sTemplateFile))
+		{
+			throw new \Exception("Template mail is not defined");
+		}
+		$oTmpl = \APP\Engine\Application::getInstance()->template;;
+		$sContent =  $oTmpl->assign($aParams)->render($sTemplateFile, true);
+		return $sContent;
 	}
 }

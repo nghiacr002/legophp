@@ -37,6 +37,7 @@ class IndexController extends Controller
 			{
 				(new UserAuth())->forgotPassword($sEmail);
 			}
+			$this->url()->redirect('user/forgot',array(),$this->language()->translate('user.email_sent_out_pls_check_your_mail_box'));
 		}
     }
 

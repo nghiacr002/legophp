@@ -52,3 +52,5 @@ $aPhrases['user.you_must_login_first'] = 'You must login first';
 $aPhrases['user.user_title_cannot_be_empty '] = 'User Title cannot be empty';
 $aPhrases['user.request'] = 'Request';
 $aPhrases['user.input_your_email_to_request_new_password'] = 'Input your email to request new password';
+$aPhrases['user.lost_password'] = 'Lost Password';
+$aPhrases['user.email_sent_out_pls_check_your_mail_box'] = 'Email lost password is sent out. Please check your mail box';

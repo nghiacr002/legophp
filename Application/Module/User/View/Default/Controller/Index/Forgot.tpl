@@ -6,7 +6,14 @@
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
+        {% if flash.hasMessage() %}
+        {% for flashMessage in flash.getMessages() %}
+        <p class="login-box-msg flash-{{ flashMessage.type}}">
+            {{ flashMessage.message }}
+        </p>
+        {% endfor %}
         
+        {% endif %}
         <form action="{{ Template_Url('user/forgot') }}" method="post">
 
             <div class="form-group has-feedback">
