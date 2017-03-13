@@ -102,7 +102,6 @@ class Auth extends Login
     }
 	public function forgotPassword($sEmail)
 	{
-		//not implement now
 		$app = \APP\Engine\Application::getInstance();
 		$mailer = $app->mailer;
 		$sMessage = "";
@@ -115,21 +114,24 @@ class Auth extends Login
 			$oRequestToken->request_type = 'lost_password';
 			$oRequestToken->status = RequestToken::STATUS_CREATED;
 			$oRequestToken->params = array(
-					'email' => $sEmail
+				'email' => $sEmail
 			);
 			if($oRequestToken->isValid())
 			{
 				$oRequestToken->save();
 			}
+			$sURL = $app->router->url()->makeUrl('user/changepassword',array('token' => $sToken));
+			$mailer->to($sEmail);
+			$mailer->subject($app->language->translate('user.lost_password'));
+			$sMessage = $mailer->getContentFromTemplate('lost_password',array(
+					'sLostPaswordURL' => $sURL,
+			));
+			$mailer->message($sMessage);
+			$mError = $mailer->send();
 		}catch(\Exception $ex)
 		{
 			Logger::error($ex);
 		}
-		$sURL = $app->router->url()->makeUrl('user/changepassword',array('token' => $sToken));
-		$mailer->to($sEmail);
-		$mailer->subject($app->language->translate('user.lost_password'));
-		$mailer->message($sMessage);
-		$mailer->send();
 		return true;
 	}
     public function getHash($sPassword, $sHash = "")

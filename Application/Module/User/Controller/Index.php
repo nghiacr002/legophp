@@ -10,6 +10,8 @@ use APP\Application\Module\User\Form\Register as RegisterForm;
 use APP\Engine\Logger;
 use APP\Engine\AppException;
 use APP\Application\Module\User\Model\Auth as UserAuth;
+use APP\Application\Module\User\Model\RequestToken;
+use APP\Application\Module\User\Model\DbTable\DbRow\RequestToken as RowRequestToken;
 
 class IndexController extends Controller
 {
@@ -18,12 +20,62 @@ class IndexController extends Controller
     {
         $this->view->abcd = "nice to meet you";
     }
-
-    public function BrowseAction()
+    public function ChangepasswordAction()
     {
+    	$request =  $this->request();
+    	if ($this->auth()->isAuthenticated())
+    	{
+    		$this->router()->url()->redirect('');
+    	}
+    	$sToken = $request->get('token');
+    	if(empty($sToken))
+    	{
+    		$this->router()->url()->redirect('');
+    	}
+    	$oUserRequestToken = (new RequestToken())->getOne(array($sToken,'lost_password'),array('code','request_type'));
+    	if(!$oUserRequestToken || $oUserRequestToken->status != RowRequestToken::STATUS_CREATED)
+    	{
+    		$this->router()->url()->redirect('');
+    	}
+    	$aParams = $oUserRequestToken->params;
+    	$sEmail = isset($aParams['email']) ? $aParams['email']: "";
+    	$oExistedUser = (new UserModel())->getOne($sEmail,'email');
+    	if(!$oExistedUser)
+    	{
+    		$this->router()->url()->redirect('');
+    	}
+		$this->view->sRequestToken = $sToken;
+		if($this->request()->isPost())
+		{
+			$sPassword = $request->get('password');
+			$sRepeatPassword = $request->get('repeat_password');
+			$sError = "";
+			if(empty($sPassword) || empty($sRepeatPassword))
+			{
+				$sError = $this->flash()->set($this->language()->translate('user.password_cannot_be_empty'));
+			}
+			elseif($sPassword != $sRepeatPassword)
+			{
+				$sError = $this->flash()->set($this->language()->translate('user.password_is_not_match'));
+			}
+			if(empty($sError))
+			{
+				list($sHash, $sNewPassHash ) = (new UserAuth())->getHash($sPassword);
+				$oExistedUser->hash = $sHash;
+				$oExistedUser->password = $sNewPassHash;
+				if($oExistedUser->isValid())
+				{
+					$oExistedUser->update();
+					$oUserRequestToken->verified_time = APP_TIME;
+					$oUserRequestToken->status = RowRequestToken::STATUS_PROCESSED;
+					$oUserRequestToken->user_id = $oExistedUser->user_id;
+					$oUserRequestToken->update();
+				}
 
+				$this->url()->redirect('user/login',array(), $this->language()->translate('user.your_password_has_been_change_pls_login_with_new_one'));
+			}
+		}
     }
-
     public function ForgotAction()
     {
     	if ($this->auth()->isAuthenticated())
@@ -33,9 +85,15 @@ class IndexController extends Controller
 		if($this->request()->isPost())
 		{
 			$sEmail = $this->request()->get('email');
+
 			if($sEmail)
 			{
-				(new UserAuth())->forgotPassword($sEmail);
+				$oExistedUser = (new UserModel())->getOne($sEmail,'email');
+				if($oExistedUser && $oExistedUser->user_id)
+				{
+					//not implement now
+					(new UserAuth())->forgotPassword($sEmail);
+				}
 			}
 			$this->url()->redirect('user/forgot',array(),$this->language()->translate('user.email_sent_out_pls_check_your_mail_box'));
 		}

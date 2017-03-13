@@ -117,12 +117,18 @@ class Mailer
 	}
 	public function getContentFromTemplate($sTemplateFile, $aParams = array())
 	{
+		if(strpos($sTemplateFile, APP_THEME_PATH) === false)
+		{
+			$sTemplateFile = APP_THEME_PATH . "Mail". APP_DS . $sTemplateFile ;
+		}
+		$sTemplateFile =\APP\Engine\Template::getFileName($sTemplateFile);
 		if(!file_exists($sTemplateFile))
 		{
 			throw new \Exception("Template mail is not defined");
 		}
-		$oTmpl = \APP\Engine\Application::getInstance()->template;;
-		$sContent =  $oTmpl->assign($aParams)->render($sTemplateFile, true);
+		$app = \APP\Engine\Application::getInstance();
+		$aParams['sMailSignature'] = $app->getSetting('mail.signature_footer_description','');
+		$sContent =  $app->template->assign($aParams)->render($sTemplateFile, true);
 		return $sContent;
 	}
 }
