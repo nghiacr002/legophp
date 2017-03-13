@@ -13,6 +13,7 @@ class User extends Model
 {
 
     const STATUS_ACTIVE = 1;
+    const STATUS_PENDING = 0;
 
     public function __construct()
     {

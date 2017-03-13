@@ -6,7 +6,7 @@ REGISTER_FORM = {
 				$('.login-box-msg').html(REGISTER_FORM.error); 
 				return false;
 			}	
-			return false;
+			return true;
 		});
 	},
 	_validateUsername(user_name) {
@@ -15,7 +15,7 @@ REGISTER_FORM = {
 	 
 	    if (user_name == "") {
 	        error = _TL('user.user_name_cannot_be_empty');
-	    } else if ((user_name.length < 5) || (user_name.length > 30)) {
+	    } else if ((user_name.length < 4) || (user_name.length > 30)) {
 	    	error = _TL('user.user_name_wrong_length');
 	 
 	    } else if (illegalChars.test(user_name)) {

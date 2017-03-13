@@ -22,7 +22,7 @@ class AdminIndexController extends Controller
 
     public function DeleteAction()
     {
-        $this->auth()->acl()->hasPerm('core.can_delete_blog', true);
+        $this->auth()->acl()->hasPerm('blog.can_delete_blog', true);
         $oBlogModel = new BlogModel();
         $iId = $this->request()->get('id');
 
@@ -45,7 +45,7 @@ class AdminIndexController extends Controller
 
     public function EditAction()
     {
-        $this->auth()->acl()->hasPerm('core.can_edit_blog', true);
+        $this->auth()->acl()->hasPerm('blog.can_edit_blog', true);
         $oBlogModel = new BlogModel();
         $iId = $this->request()->get('id');
         $this->view->oExistedBlog = $oExistedBlog = $oBlogModel->getOne($iId);
@@ -142,7 +142,7 @@ class AdminIndexController extends Controller
 
     public function AddAction()
     {
-        $this->auth()->acl()->hasPerm('core.can_add_blog', true);
+        $this->auth()->acl()->hasPerm('blog.can_add_blog', true);
         $oFormBlogItem = new BlogItem();
         $this->view->oFormBlogItem = $oFormBlogItem;
         if ($this->request()->isPost())
@@ -223,7 +223,7 @@ class AdminIndexController extends Controller
 
     public function ManageAction()
     {
-        $this->auth()->acl()->hasPerm('core.can_access_blog', true);
+        $this->auth()->acl()->hasPerm('blog.can_access_blog', true);
         $oBlogModel = (new BlogModel());
         $iLimit = $this->request()->get('limit', 20);
         $iCurrentPage = $this->request()->get('page', 1);

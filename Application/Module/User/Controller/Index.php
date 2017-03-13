@@ -157,8 +157,13 @@ class IndexController extends Controller
         {
             $this->router()->url()->redirect('');
         }
-        $oUserModel = new UserModel();
         $bIsModeInstall = ($this->request()->get('mode') == "install") ? true: false;
+        if(!$this->app()->getSetting('user.enable_register_account') && !$bIsModeInstall)
+        {
+        	$this->router()->url()->redirect('');
+        }
+        $oUserModel = new UserModel();
+
         if($bIsModeInstall)
         {
 			$oExistedAdmin = $oUserModel->getOne(UserGroupModel::ADMINISTRATOR,'main_group_id');
@@ -191,6 +196,10 @@ class IndexController extends Controller
                     	if($bIsModeInstall)
                     	{
                     		$oNewUser->main_group_id = UserGroupModel::ADMINISTRATOR;
+                    		$oNewUser->status = UserModel::STATUS_ACTIVE;
+                    	}
+                    	if($this->app()->getSetting('user.auto_approve_user_when_register'))
+                    	{
                     		$oNewUser->status = UserModel::STATUS_ACTIVE;
                     	}
                         $iUserId = $oNewUser->save();

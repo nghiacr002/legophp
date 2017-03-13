@@ -153,12 +153,24 @@ class Application {
 	}
 	public function getSetting($sName, $mDefaultValue = null) {
 		if (isset ( $this->_aSettings [$sName] )) {
-			if (! $this->_aSettings [$sName] ['real_value']) {
+			if ($this->_aSettings [$sName] ['real_value'] === NULL) {
 				return $this->_aSettings [$sName] ['default_value'];
 			}
 			return $this->_aSettings [$sName] ['real_value'];
 		}
 		return $mDefaultValue;
+	}
+	public function setConfig($sName, $mIndex = null, $mValue)
+	{
+		if($mIndex)
+		{
+			$this->_aConfigs[$sName][$mIndex] = $mValue;
+		}
+		else
+		{
+			$this->_aConfigs[$sName] = $mValue;
+		}
+		return $this;
 	}
 	public function setSetting($sName, $mValue) {
 		$this->_aSettings [$sName] ['real_value'] = $mValue;

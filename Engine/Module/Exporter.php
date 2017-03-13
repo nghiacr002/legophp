@@ -35,6 +35,10 @@ class Exporter extends Component
 		}
 		return $this->_saveSQL ( $aQueries );
 	}
+	protected  function _buildConditions($sTableName)
+	{
+		return array();
+	}
 	protected function _exportDBTable($sTableName, $aConfig = array())
 	{
 		$aQueries = array ();
@@ -59,6 +63,18 @@ class Exporter extends Component
 			do
 			{
 				$oQuery = new Query ( "Select" );
+				$aConds = $this->_buildConditions($sTableName);
+				if(is_array($aConds) && count($aConds))
+				{
+					foreach($aConds as $iKey => $aCond)
+					{
+						$param = isset($aCond[0]) ? $aCond[0] : "";
+						$bind = isset($aCond[1]) ? $aCond[1] : "";
+						$operator = isset($aCond[2]) ? $aCond[2] : "=";
+						$cond_type = isset($aCond[3]) ? $aCond[3] : "AND";
+						$oQuery->where($param,$bind,$operator,$cond_type);
+					}
+				}
 				$aRows = $oQuery->select ( '*' )->from ( $sFullTableName )->limit ( $iPage, $iLimit )->execute ();
 				if (! is_array ( $aRows ) || ! count ( $aRows ))
 				{

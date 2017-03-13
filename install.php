@@ -33,7 +33,18 @@ switch ($sCallAction)
     	break;
 
 }
+$sPathDir = dirname($_SERVER["REQUEST_URI"]);
+if(empty($sPathDir))
+{
+	$sPathDir = "/";
+}
+else
+{
+	$sPathDir.="/";
+}
 $mainApp->router = new Router();
+$mainApp->router->instance()->setBasePath($sPathDir);
+$mainApp->setConfig('system', 'base_path',$sPathDir);
 $sRegisterUser = $mainApp->router->url()->makeUrl('user/register',array('mode' => 'install'));
 if(!empty($sCallAction))
 {
