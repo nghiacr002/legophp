@@ -293,7 +293,7 @@ class Query
 		{
 			foreach ( $this->_aJoins as $key => $aJoin )
 			{
-				$join .= $aJoin ['type'] . " JOIN " . $aJoin ['table'];
+				$join .= " " . $aJoin ['type'] . " JOIN " . $aJoin ['table'];
 				if (! empty ( $aJoin ['alias'] ))
 				{
 					$join .= " AS " . $aJoin ['alias'];

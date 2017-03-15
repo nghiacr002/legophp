@@ -284,7 +284,8 @@ class Template extends Object
 		{
 			return "";
 		}
-		if(is_array($this->_aIncludeFiles) && count($this->_aIncludeFiles) && in_array($this->_aIncludeFiles, $sURL))
+		if(is_array($this->_aIncludeFiles) && count($this->_aIncludeFiles)
+				&& in_array($sURL,$this->_aIncludeFiles))
 		{
 			return "";
 		}

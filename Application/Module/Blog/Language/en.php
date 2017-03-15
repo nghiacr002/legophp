@@ -32,5 +32,6 @@ $aPhrases['blog.recent_blog'] = 'Recent Blog';
 $aPhrases['blog.featured_blog'] = 'Featured Blog';
 $aPhrases['blog.limit_display'] = 'Limit Display';
 $aPhrases['blog.featured_blogs'] = 'Featured Blogs';
+$aPhrases['blog.recent_blogs'] = 'Recent Blogs';
 
 

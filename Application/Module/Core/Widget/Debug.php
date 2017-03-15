@@ -7,13 +7,12 @@ use APP\Engine\Module\Widget;
 class DebugWidget extends Widget
 {
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function process()
     {
+    	if(!$this->app->isDebug())
+    	{
+    		return false;
+    	}
         $fTimeExecute = \APP\Engine\Debug::executeTime();
         $this->view->excuteTime = $fTimeExecute;
         $this->view->memoryUsage = memory_get_usage();

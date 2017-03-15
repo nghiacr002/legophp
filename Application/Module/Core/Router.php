@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ *
  *
   ---------------------------------------------------------------------------------------------------------
 
@@ -34,4 +34,11 @@ $_ROUTER['default'] = array(
         'module' => 'core',
         'params' => array(),
     ),
+	'core_hello_world' => array(
+			'route' => 'hello/index',
+			'controller' => 'hello',
+			'action' => 'index',
+			'module' => 'core',
+			'params' => array(),
+	),
 );

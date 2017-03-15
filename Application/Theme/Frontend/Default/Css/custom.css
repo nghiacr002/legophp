@@ -80,3 +80,14 @@ section.content .row-design{
 	 margin-right: -15px;
     margin-left: -15px;
 }
+#filter-holder .filter-element {
+    display: inline-block;
+    width: auto;
+    margin-right: 5px;
+}
+#search-submit-button{
+    margin-top:-4px;
+}
+.display-inline{
+	display:inline-block;
+}

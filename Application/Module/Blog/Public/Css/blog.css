@@ -7,12 +7,15 @@ ul.blog-list-holder li{
 }
 .blog-img{
 	float:left; 
-	width:80px; 
+	width:60px; 
+}
+.blog-img img{
+	width:100%;
 }
 .blog-content{
 	text-align:justify;
-	padding-left:89px;
+	padding-left:69px;
 }
 .blog-title{
-	font-size: 17px;
+	font-size: 15px;
 }

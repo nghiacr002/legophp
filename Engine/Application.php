@@ -101,7 +101,7 @@ class Application {
 		$this->router = new \APP\Engine\Router ();
 		$this->mailer = new \APP\Engine\Mailer();
 		$iIndexSeg = 0;
-		if (! empty ( $this->_aConfigs ['system'] ['base_path'] )) {
+		if (! empty ( $this->_aConfigs ['system'] ['base_path'] ) &&  $this->_aConfigs ['system'] ['base_path'] !='/') {
 			$iIndexSeg = 1;
 		}
 		if ($this->request->seg ( $iIndexSeg ) == $this->getConfig ( 'system', 'admin_path' )) {
@@ -203,11 +203,12 @@ class Application {
 		$this->init ();
 		$sBasePath = $this->_aConfigs ['system'] ['base_path'];
 		if ($this->isAdminPanel ()) {
-			if ($sBasePath == "") {
+			if ($sBasePath == "" || $sBasePath == "/") {
 				$sBasePath = "/";
 			}
 			$sBasePath = $sBasePath . $this->_aConfigs ['system'] ['admin_path'] . "/";
 		}
+
 		if (! empty ( $sBasePath )) {
 			$this->router->instance ()->setBasePath ( $sBasePath );
 		}
@@ -267,7 +268,7 @@ class Application {
 							system_display_result ( array (
 									'module' => $sModule,
 									'controller' => $sController,
-									'action' => $sActionName
+									'action' => $sAction
 							) );
 						}
 						$this->module->set ( $sModule, $sController, $sAction );
