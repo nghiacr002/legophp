@@ -4,6 +4,7 @@ namespace APP\Application\Module\Core\Model\DbTable\DbRow;
 
 use APP\Engine\Database\DbRow;
 use App\Engine\Url;
+use APP\Engine\Database\Query;
 
 class Category extends DbRow
 {
@@ -16,5 +17,20 @@ class Category extends DbRow
     		$sURL = (new Url())->makeUrl($sURIName,array('id' => $this->category_id,'slug' => $sSlug));
     	}
 		return $sURL;
+    }
+    public function delete()
+    {
+    	$id = $this->category_id;
+    	$mResult = parent::delete();
+    	//delete all sub
+    	if($id > 0){
+    		$oQuery = new Query();
+    		$oQuery->setCommand("Delete");
+    		$oQuery->from($this->getTable());
+    		$oQuery->where('parent_id',$id);
+    		$oQuery->execute();
+    	}
+    	return $mResult;
+
     }
 }

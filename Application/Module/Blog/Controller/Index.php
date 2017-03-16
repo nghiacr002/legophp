@@ -5,8 +5,10 @@ use APP\Application\Module\Theme\Model\Layout;
 use APP\Application\Module\Blog\Model\Blog as BlogModel;
 use APP\Engine\HTML\Filter;
 use APP\Engine\HTML\Pagination;
+use APP\Application\Module\Blog\Model\Category;
 class IndexController extends Controller
 {
+	protected $_iCategoryId = 0;
     public function IndexAction()
     {
     	$iLimit = $this->request()->get('limit', 5);
@@ -26,29 +28,29 @@ class IndexController extends Controller
     	));
     	$aFilter = $oFilter->getFilterValues();
     	$aConds = array();
+    	if($this->_iCategoryId)
+    	{
+    		$mValue = $this->_iCategoryId;
+    		$aCategories = (new Category())->getCategoriesByType("blog");
+    		$aSubCategories = isset($aCategories[$mValue]) ? $aCategories[$mValue]['sub'] : array();
+    		if (count($aSubCategories))
+    		{
+    			$aSub = array();
+    			foreach ($aSubCategories as $iKeySubCat => $aSubCat)
+    			{
+    				$aSub[] = $aSubCat['category_id'];
+    			}
+    			$aConds[] = array('blog.category_id', $aSub, 'IN');
+    		} else
+    		{
+    			$aConds[] = array('blog.category_id', '%' . $mValue . '%', 'LIKE');
+    		}
+    	}
     	if (isset($aFilter) && count($aFilter))
     	{
     		foreach ($aFilter as $iKey => $mValue)
     		{
-    			if ($iKey == "blog.category_id")
-    			{
-    				$aSubCategories = isset($aCategories[$mValue]) ? $aCategories[$mValue]['sub'] : array();
-    				if (count($aSubCategories))
-    				{
-    					$aSub = array();
-    					foreach ($aSubCategories as $iKeySubCat => $aSubCat)
-    					{
-    						$aSub[] = $aSubCat['category_id'];
-    					}
-    					$aConds[] = array($iKey, $aSub, 'IN');
-    				} else
-    				{
-    					$aConds[] = array($iKey, '%' . $mValue . '%', 'LIKE');
-    				}
-    			} else
-    			{
-    				$aConds[] = array($iKey, '%' . $mValue . '%', 'LIKE');
-    			}
+    			$aConds[] = array($iKey, '%' . $mValue . '%', 'LIKE');
     		}
     	}
     	$oBlogModel = new BlogModel();
@@ -64,16 +66,28 @@ class IndexController extends Controller
     			'current' => $iCurrentPage,
     			'limit' => $iLimit,
     	);
+    	if($this->_iCategoryId)
+    	{
+    		$aParams['router'] = 'blog_category_detail';
+    		$aParams['params']['id'] = $this->_iCategoryId;
+    		$aParams['params']['slug'] = $this->request()->get('slug');
+    	}
     	if (count($aFilter))
     	{
     		$aParams['params'] = array_merge($aParams['params'], $aFilter);
     	}
     	$this->view->paginator = new Pagination($aParams);
     }
+    public function CategoryAction()
+    {
+    	$this->_iCategoryId = $iCategoryId = $this->request()->get('id');
+
+		$this->IndexAction();
+    }
     public function ViewAction()
     {
     	$iId = $this->request()->get('id');
-    	$this->view->oBlogItem = $oBlog = (new Blog())->getOne($iId);
+    	$this->view->oBlogItem = $oBlog = (new BlogModel())->getOne($iId);
     	if(!$oBlog || !$oBlog->blog_id)
     	{
     		$this->url()->redirect('blog',array(),$this->language()->translate('core.item_not_found'),'error');
