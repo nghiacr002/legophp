@@ -39,10 +39,15 @@ class Url extends Object
                     if (isset($aParams[$param]))
                     {
                         $url = str_replace($block, $aParams[$param], $url);
+                        unset($aParams[$param]);
                     } elseif ($optional)
                     {
                         $url = str_replace($pre . $block, '', $url);
                     }
+                }
+                if(count($aParams))
+                {
+                	$url = $url .'?'.http_build_query($aParams);
                 }
                 return $url;
             }
