@@ -183,7 +183,8 @@ class Application {
 		}
 		$sDomain = isset ( $_SERVER ['SERVER_NAME'] ) ? $_SERVER ['SERVER_NAME'] : "";
 		$sPort = isset ( $_SERVER ['SERVER_PORT'] ) ? $_SERVER ['SERVER_PORT'] : "";
-		if ($sPort != 80 || $sPort != 443) {
+
+		if ($sPort != 80 && $sPort != 443) {
 			$sDomain = $sDomain . ":" . $sPort;
 		}
 		return $sProtocol . $sDomain . $this->getConfig ( 'system', 'base_path' );
