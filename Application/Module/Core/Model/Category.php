@@ -63,10 +63,13 @@ class Category extends Model
 
     public function getAllWithCache($aConds = array(), $iPage = null, $iLimit = null, $sSelectFields = "*", $mOrder = null)
     {
-        $aConds[] = array(
-            'category_type', $this->_sType
-        );
-        $sCacheName = $this->_oTable->getTableName();
+    	if (!empty($this->_sType))
+    	{
+    		$aConds[] = array(
+    				'category_type', $this->_sType
+    		);
+    	}
+	    $sCacheName = $this->_oTable->getTableName();
         $sCacheName = $sCacheName . md5($sSelectFields . serialize($mOrder) . $iPage . $iLimit);
         if ($aRows = $this->cache()->get($sCacheName))
         {

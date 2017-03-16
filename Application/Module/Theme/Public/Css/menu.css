@@ -34,3 +34,24 @@ form .form-message{
 #switch_form a{
     font-size:12px;
 }
+#existed-page-category-items{
+	max-height: 350px;
+	min-height: 150px;
+	margin:15px 0;
+	overflow: auto;
+}
+#existed-page-category-items ul li > ol,
+#existed-page-category-items ul{
+	padding:0; 
+	list-style: none;
+}
+#existed-page-category-items ul li .key-title{
+	background:#cfcfcf; 
+	text-align: center; 
+	text-transform: uppercase;;
+	display:block;
+	padding:7px 5px;
+	font-weight: bold;
+	margin-bottom:5px;
+	
+}

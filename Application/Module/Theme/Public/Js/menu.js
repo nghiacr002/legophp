@@ -61,12 +61,41 @@ MENU = {
             size: "small"
         });
     },
+    insertExistedItem: function(e){
+    	var name = $(e).attr('name'); 
+    	var urlPage = $(e).attr('url'); 
+    	if(name && urlPage){
+    		var _url = CORE.params['sBaseAdminUrl'] + 'theme/menu/add';
+	       	 $.ajax({
+	                url: _url,
+	                method: 'POST',
+	                dataType: 'json',
+	                data: {
+	                 menu_name:name, 
+	                 parent_id:0,
+	                 url:urlPage,
+	                 is_active:0,
+	                },
+	            }).done(function (data) {
+	                if (data.menu) {
+	                    MENU.appendMenuItem(data.menu);
+	                    if (data.menu.parent_id == 0) {
+	                        $('#parent_id').append('<option value="' + data.menu.menu_id + '">' + data.menu.menu_name + '</option>');
+	                    }
+	                }
+	            }).error(function (data) {
+	               
+	            });
+    	}
+    	return false;
+    },
     appendMenuItem: function (item) {
         if ($('menu-item-' + item.menu_id + '').length > 0) {
             return false;
         }
         var _html = [];
-        _html.push('<li class="menu-item" id="menu-item-' + item.menu_id + '">');
+        var is_active = (item.is_active == 1) ? 1: 0;
+        _html.push('<li class="menu-item menu-active-mode-'+is_active+'" id="menu-item-' + item.menu_id + '">');
         _html.push('<div class="menu-content">');
         _html.push('<span>' + item.menu_name + '</span>');
         _html.push('<span class="pull-right edit-row-menu">');
@@ -137,6 +166,7 @@ MENU = {
                 }
                 $('#box-form-menu h3.box-title').html(_TL('core.edit_menu'));
                 $('#switch_form').show();
+                $('#tab_1_a').trigger('click');
             }
         }).error(function (data) {
 

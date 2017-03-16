@@ -38,6 +38,7 @@ class AdminMenuController extends Controller
             ),
         );
         $this->template()->setBreadCrumb($aBreadCrumb);
+		$this->view->aCustomMenuItems = $aCustomMenuItems = $this->helper->callback('getCustomMenuItems',array('group_item' => true));
     }
 
     public function EditAction()

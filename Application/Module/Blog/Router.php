@@ -8,4 +8,11 @@ $_ROUTER['default'] = array(
         'module' => 'blog',
         'params' => array(),
     ),
+	'blog_category_detail' => array(
+		'route' => 'blog/category/[*:slug]-[i:id]',
+		'controller' => 'index',
+		'action' => 'category',
+		'module' => 'blog',
+		'params' => array(),
+	),
 );

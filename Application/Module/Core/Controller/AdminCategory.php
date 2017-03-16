@@ -82,6 +82,10 @@ class AdminCategoryController extends Controller
         {
             unset($aDataRow['router']);
         }
+        if (isset($aDataRow['category_id']))
+        {
+        	unset($aDataRow['category_id']);
+        }
         $oNewCategory = $oModelCategory->getTable()->createRow($aDataRow);
 
         if ($oNewCategory->isValid())

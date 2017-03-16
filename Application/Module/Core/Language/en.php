@@ -309,3 +309,4 @@ $aPhrases['core.register_first_account_as_admin_system'] = 'Register first accou
 $aPhrases['core.cache_cleaned'] = 'Cache cleaned.';
 $aPhrases['core.slider'] = 'Slider';
 $aPhrases['core.add_media'] = 'Add Media';
+$aPhrases['core.add'] = 'Add';

@@ -59,6 +59,7 @@ $aPhrases['theme.you_will_lost_your_changes_are_you_sure'] = 'You will lose your
 $aPhrases['theme.item_widgets'] = 'Item Widgets';
 $aPhrases['theme.default_layout_for_webpage'] = 'Default Layout for webpage';
 $aPhrases['theme.controller_name'] = 'Controller Name';
+$aPhrases['theme.existed_items'] = 'Existed Items';
 
 
 

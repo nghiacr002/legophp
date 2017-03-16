@@ -14,4 +14,5 @@ class Bootstrap extends ModuleBootstrap
         $aJsPhrase['theme.you_will_lost_your_changes_are_you_sure'] = $this->app->language->translate('theme.you_will_lost_your_changes_are_you_sure');
         $this->app->template->setJsPhrase($aJsPhrase);
     }
+
 }

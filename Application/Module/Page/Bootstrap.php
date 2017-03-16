@@ -3,6 +3,7 @@
 namespace APP\Application\Module\Page;
 
 use APP\Engine\Module\Bootstrap as ModuleBootstrap;
+use APP\Application\Module\Page\Model\Page;
 
 class Bootstrap extends ModuleBootstrap
 {
@@ -35,5 +36,22 @@ class Bootstrap extends ModuleBootstrap
         );
         return $aMenu;
     }
-
+    public function getCustomMenuItems()
+    {
+    	$aPages = (new Page())->getAll(array(),null,null,'*',array('page_id','DESC'));
+    	$aItems = array();
+    	if(is_array($aPages) && count($aPages))
+    	{
+    		foreach($aPages as $oPage)
+    		{
+    			$aItem = array(
+    					'menu_name' => $oPage->page_title,
+    					'url' => $oPage->page_url,
+    					'type' => 'page'
+    			);
+    			$aItems[] = $aItem;
+    		}
+    	}
+    	return $aItems;
+    }
 }

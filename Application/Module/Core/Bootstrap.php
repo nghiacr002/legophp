@@ -5,6 +5,7 @@ namespace APP\Application\Module\Core;
 use APP\Engine\Module\Bootstrap as ModuleBootstrap;
 use APP\Application\Module\Core\Plugin\Twig_Core_Extension;
 use APP\Application\Module\Core\Model\LanguagePatch as LanguagePatch;
+use APP\Application\Module\Core\Model\Category as CategoryModel;
 
 class Bootstrap extends ModuleBootstrap
 {
@@ -54,8 +55,7 @@ class Bootstrap extends ModuleBootstrap
     public function getAdminMenu()
     {
         return false;
-        //$sAdminUrlPath = $this->app->getConfig('system','admin_path');
-        $aMenu = array(
+        /*$aMenu = array(
             'name' => $this->app->language->translate('core.core'),
             'url' => '#',
             'icon' => 'fa fa-globe',
@@ -67,8 +67,25 @@ class Bootstrap extends ModuleBootstrap
                 ),
             ),
         );
-        return $aMenu;
+        return $aMenu;*/
     }
-
+    public function getCustomMenuItems()
+    {
+		$aCategories = (new CategoryModel())->getAll(array(),null,null,'*',array('category_type','DESC'));
+		$aItems = array();
+		if(is_array($aCategories) && count($aCategories))
+		{
+			foreach($aCategories as $oCategory)
+			{
+				$aItem = array(
+					'menu_name' => $oCategory->category_name,
+					'url' => $oCategory->href(),
+					'type' => $oCategory->category_type
+				);
+				$aItems[] = $aItem;
+			}
+		}
+		return $aItems;
+    }
 
 }
