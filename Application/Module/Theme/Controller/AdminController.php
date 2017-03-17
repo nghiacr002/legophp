@@ -1,9 +1,11 @@
-<?php 
+<?php
 namespace APP\Application\Module\Theme;
 use APP\Engine\Module\Controller;
 use APP\Application\Module\Theme\Model\ModuleController;
 use APP\Application\Module\Theme\Model\Layout;
 use APP\Application\Module\Theme\Form\ModuleControllerItem;
+use APP\Application\Module\Theme\Model\LayoutDesign;
+use APP\Application\Module\Theme\Model\LayoutWidgets;
 class AdminControllerController extends Controller
 {
 	public function __construct()
@@ -60,12 +62,38 @@ class AdminControllerController extends Controller
         	try
         	{
         		unset($aDataSubmit['action']);
-        		$oRow = (new ModuleController())->getTable()->createRow($aDataSubmit);	
+        		$oRow = (new ModuleController())->getTable()->createRow($aDataSubmit);
         		if($oRow->isValid())
         		{
         			$iId = $oRow->save();
         			if($iId)
         			{
+        				//create new default widget
+
+        				$aDefaultLayoutWidgets = (new LayoutDesign())->getDefaultWidgets($oRow->layout_id);
+						if(count($aDefaultLayoutWidgets))
+						{
+							$oLayoutWidgetModel = new LayoutWidgets();
+							foreach($aDefaultLayoutWidgets as $iKey => $oWidget)
+							{
+								try
+								{
+									$oNewLayoutWidget = $oLayoutWidgetModel->getTable()->createRow();
+									$oNewLayoutWidget->item_id = $iId;
+									$oNewLayoutWidget->item_type = 'controller';
+									$oNewLayoutWidget->widget_id = $oWidget->widget_id;
+									$oNewLayoutWidget->layout_id = $oWidget->layout_id;
+									$oNewLayoutWidget->location_id = $oWidget->location_id;
+									$oNewLayoutWidget->param_values = $oWidget->param_values;
+									$oNewLayoutWidget->ordering = $oWidget->ordering;
+									$oNewLayoutWidget->save();
+								}
+								catch (\Exception $ex)
+								{
+
+								}
+							}
+						}
         				$aReturn['redirect'] = $this->url()->makeUrl('theme/controller/edit',array('admincp' => true,'id' => $iId));
         			}
         		}
@@ -88,9 +116,9 @@ class AdminControllerController extends Controller
 		$this->auth()->acl()->hasPerm('core.can_delete_controller_design', true);
 		$oModuleController = new ModuleController();
 		$iId = $this->request()->get('id');
-		
+
 		$this->view->oExistedLayout = $oExistedLayout = $oModuleController->getOne($iId);
-		
+
 		if (!$oExistedLayout || !$oExistedLayout->controller_id)
 		{
 			$this->app->flash->set($this->language()->translate('theme.layout_not_found'));
@@ -118,7 +146,7 @@ class AdminControllerController extends Controller
 		}
 		$oFormItem = new ModuleControllerItem();
 		$this->view->oFormItem = $oFormItem;
-		
+
 		if ($this->request()->isPost())
 		{
 			$aData = $oFormItem->getFormValues();
@@ -138,7 +166,7 @@ class AdminControllerController extends Controller
 				Logger::error($ex);
 				$this->flash()->set($this->language()->translate('core.there_are_some_problems_with_system_please_try_again'), "system", 'error');
 			}
-			
+
 		}
 		else
 		{
@@ -159,7 +187,7 @@ class AdminControllerController extends Controller
 			'admin_page.css' => 'module_page',
 		));
 		$sUrl = $this->url()->makeUrl('theme/controller', array('admincp' => true));
-		
+
 		$aBreadCrumb = array(
 				'title' => $oExistedLayout->controller_name,
 				'icon' => '',
@@ -169,7 +197,7 @@ class AdminControllerController extends Controller
 					$sUrl => $this->language()->translate('theme.module_controller'),
 				),
 		);
-		
+
 		$this->view->sFormUrl = $this->url()->makeUrl('theme/controller/edit', array('id' => $iId, 'admincp' => true));
 		$this->template()->setBreadCrumb($aBreadCrumb);
 		$this->setActiveMenu('theme/controller');

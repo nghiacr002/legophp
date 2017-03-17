@@ -8,12 +8,6 @@ use APP\Application\Module\Theme\Model\LayoutDesign;
 
 class LocationWidget extends Widget
 {
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function process()
     {
 		$bIsDesignLayout = $this->app()->getSharedParam('design-layout');
@@ -30,10 +24,19 @@ class LocationWidget extends Widget
 			$this->view->sItemType = $sItemType = $this->app->getSharedParam('item-type');
 			$oLayoutWidgets = (new LayoutWidgets())->setItem($iItemId, $sItemType);
 			$aLayoutWidgets = $oLayoutWidgets->getByLocation($iLocationId, $iLayoutId);
-			if(!count($aLayoutWidgets))
+			$iDefaultItemLayoutId = $this->app()->getSharedParam('default-item-layout-id');
+
+			if($iDefaultItemLayoutId !== null && $iDefaultItemLayoutId != $iLayoutId)
+			{
+				if(!count($aLayoutWidgets))
+				{
+					$aLayoutWidgets = (new LayoutDesign())->getByLocation($iLocationId, $iLayoutId);
+				}
+			}
+			/*if(!count($aLayoutWidgets))
 			{
 				$aLayoutWidgets = (new LayoutDesign())->getByLocation($iLocationId, $iLayoutId);
-			}
+			}*/
 		}
 		$this->view->aLayoutWidgets = $aLayoutWidgets;
     }

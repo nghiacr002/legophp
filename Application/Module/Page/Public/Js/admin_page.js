@@ -107,6 +107,7 @@ ADMIN_PAGE = {
             });
             layout.locations.push(location);
         });
+
         if(has_widget <=0){
         	bootbox.confirm({ 
     		  size: "small",

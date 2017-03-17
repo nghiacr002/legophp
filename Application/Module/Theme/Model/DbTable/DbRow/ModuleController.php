@@ -1,6 +1,7 @@
-<?php 
+<?php
 namespace APP\Application\Module\Theme\Model\DbTable\DbRow;
 use APP\Application\Module\Theme\Model\Layout;
+use APP\Engine\Database\Query;
 class ModuleController extends \APP\Engine\Database\DbRow
 {
 	public function buildContent($sControllerContent)
@@ -36,5 +37,16 @@ class ModuleController extends \APP\Engine\Database\DbRow
     	}
     	$sContentLayout = $oTpl->assign($aAssignedParams)->render($sTemplateFileName);
     	return $sContentLayout;
+	}
+	public function delete()
+	{
+		$mResult = parent::delete();
+		$oQuery = new Query();
+		$oQuery->setCommand("Delete");
+		$oQuery->from(\APP\Engine\Database\DbTable::getFullTableName('layout_widgets'));
+		$oQuery->where('item_type','controller');
+		$oQuery->where('item_id',$this->controller_id);
+		$oQuery->execute();
+		return $mResult;
 	}
 }

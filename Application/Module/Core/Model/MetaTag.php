@@ -32,7 +32,6 @@ class MetaTag extends Model
     public function updateMetags($aMeta = array(), $sType = "", $iItemId = 0)
     {
         $this->deleteByItem($sType, $iItemId);
-        d($aMeta);die();
         foreach ($aMeta as $sGroup => $aData)
         {
             foreach ($aData as $sMetaName => $sContent)

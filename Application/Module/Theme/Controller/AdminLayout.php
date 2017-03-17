@@ -8,6 +8,8 @@ use APP\Application\Module\Theme\Model\Layout;
 use APP\Application\Module\Theme\Model\LayoutDesign;
 use APP\Engine\File;
 use APP\Application\Module\Theme\Model\LayoutWidgets;
+use APP\Application\Module\Theme\Model\ModuleController;
+use APP\Application\Module\Page\Model\Page as PageModel;
 
 class AdminLayoutController extends Controller
 {
@@ -250,6 +252,26 @@ class AdminLayoutController extends Controller
         else
         {
             $sLayoutPagePathFile =APP_THEME_PATH . 'PageLayout' . APP_DS . "Default.tpl";
+        }
+        $oControllerModel = new ModuleController();
+        $oPageModel = new PageModel();
+        $oExistedPage = null;
+        $iLayoutDefaultItem = null;
+        switch($sType)
+        {
+        	case 'controller':
+        		$oExistedPage = $oControllerModel->getOne ( $iItemId );
+        		$iLayoutDefaultItem = $oExistedPage->layout_id;
+        		break;
+        	case 'page':
+        	default:
+        		$oExistedPage = $oPageModel->getOne ( $iItemId );
+        		$iLayoutDefaultItem = $oExistedPage->page_layout;
+        		break;
+        }
+        if($oExistedPage)
+        {
+        	$this->app->setSharedData('default-item-layout-id', $iLayoutDefaultItem);
         }
         $this->view->sLayoutPagePathFile = $sLayoutPagePathFile;
         $this->app()->setSharedData('design-mode', true);

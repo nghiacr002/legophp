@@ -12,6 +12,7 @@ use APP\Application\Module\Core\Model\MetaTag;
 use APP\Application\Module\Theme\Model\DbTable\DbRow\LayoutWidgets;
 use APP\Engine\AppException;
 use APP\Application\Module\Theme\Model\Widget as WidgetModel;
+use APP\Application\Module\Theme\Model\ModuleController;
 
 class AdminIndexController extends Controller
 {
@@ -63,21 +64,42 @@ class AdminIndexController extends Controller
 			$iPageId = $this->request ()->get ( 'pid' );
 			$iLayoutId = $this->request ()->get ( 'id' );
 			$aLocations = $this->request ()->get ( 'locations' );
+			$sType = $this->request()->get('item_type','page');
 			$oPageModel = new PageModel ();
+			$oControllerModel = new ModuleController();
 			$oWidgetModel = new WidgetModel ();
-			$oExistedPage = $oPageModel->getOne ( $iPageId );
-			if (! $oExistedPage || ! $oExistedPage->page_id)
+			$oExistedPage = null;
+			switch($sType)
+			{
+				case 'controller':
+					$oExistedPage = $oControllerModel->getOne ( $iPageId );
+					break;
+				case 'page':
+				default:
+					$oExistedPage = $oPageModel->getOne ( $iPageId );
+					break;
+			}
+
+			if (!$oExistedPage)
 			{
 				$aReturn ['message'] = $this->language ()->translate ( 'core.no_items_found' );
-			} else
+			}
+			else
 			{
-				$oExistedPage->page_layout = ( int ) $iLayoutId;
+				if($sType == "controller")
+				{
+					$oExistedPage->layout_id = ( int ) $iLayoutId;
+				}
+				else
+				{
+					$oExistedPage->page_layout = ( int ) $iLayoutId;
+				}
 				$oExistedPage->hide_header_layout = ( int ) $this->request ()->get ( 'header' );
 				$oExistedPage->hide_footer_layout = ( int ) $this->request ()->get ( 'footer' );
 				if ($oExistedPage->update ())
 				{
 					$oPageWidgetModel = new \APP\Application\Module\Theme\Model\LayoutWidgets ();
-					$oPageWidgetModel->setItem ( $iPageId, "page" );
+					$oPageWidgetModel->setItem ( $iPageId,$sType);
 					$bSuccess = true;
 					if (count ( $aLocations ))
 					{

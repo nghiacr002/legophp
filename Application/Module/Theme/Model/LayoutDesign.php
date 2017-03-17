@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace APP\Application\Module\Theme\Model;
 use APP\Engine\Module\Model;
 use APP\Application\Module\Theme\Model\DbTable\LayoutDesign as DbLayoutDesign;
@@ -14,6 +14,14 @@ class LayoutDesign extends Model
 	{
 		$aConds = array(
 			array('location_id', $iLocationId),
+			array('layout_id', $iLayoutId),
+		);
+		$aWidgets = $this->getAll($aConds,null,null,"*",array('ordering','ASC'));
+		return $aWidgets;
+	}
+	public function getDefaultWidgets($iLayoutId)
+	{
+		$aConds = array(
 			array('layout_id', $iLayoutId),
 		);
 		$aWidgets = $this->getAll($aConds,null,null,"*",array('ordering','ASC'));
@@ -48,6 +56,7 @@ class LayoutDesign extends Model
 			return null;
 		}
 		$mRows = array();
+		$sCastObject = $this->_oTable->getRowClass();
 		foreach ($mResults as $iKey => $mResult)
 		{
 			$oRow = new \APP\Engine\Database\DbRow($this->_oTable);
@@ -61,10 +70,10 @@ class LayoutDesign extends Model
 				$mResult['param_values'] = @json_decode($mResult['param_values'],true);
 			}
 			$oRow->setData($mResult);
-	
-			if (!empty($this->_oTable->getRowClass()))
+
+			if (!empty($sCastObject))
 			{
-				$oRow = system_cast_object($oRow, $this->_oTable->getRowClass());
+				$oRow = system_cast_object($oRow, $sCastObject);
 			}
 			$mRows[] = $oRow;
 		}

@@ -14,7 +14,7 @@
             
             {{ oFormItem.start({"action": sFormUrl,"method":"post","id": "form-page-infor","enctype":"multipart/form-data","onsubmit":"return MC.onEditLayout(this);"} ) }}
             <input type="hidden" value="controller" id="item_type" name="item_type"/>
-            <input type="hidden" value="{{ oFormItem.controller_id }}" name="controller_id" id="controller_id"/>
+            <input type="hidden" value="{{ oFormItem.controller_id }}" name="controller_id" id="item_id"/>
             <div class="box-body">
                  <div class="form-group ">
                     <label for="url">{{ oFormItem.element('layout_id').hasRequired() }}  {{ Translate('page.page_layout') }}</label>
