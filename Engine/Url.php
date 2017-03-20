@@ -12,10 +12,10 @@ class Url extends Object
         $aRouter = $this->app->router->getRouter($sURI);
         $app = \APP\Engine\Application::getInstance();
         $bAdminLink = false;
-        if (isset($aParams['admincp']) && $aParams['admincp'] == true)
+        if (isset($aParams['admincp']))
         {
+        	$bAdminLink = $aParams['admincp'];
             unset($aParams['admincp']);
-            $bAdminLink = true;
         }
         $sBaseUrl = $app->getBaseURL();
         if ($bAdminLink)

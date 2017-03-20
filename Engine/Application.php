@@ -14,7 +14,7 @@ class Application {
 	private $_sBrandName = "LegoPHP";
 	private $_sVersion = "1.0";
 	private static $instance;
-	private $_bIsAdminPanel = null;
+	private $_bIsAdminPanel = false;
 	private $_aSettings;
 	private $_bIsAjaxCall = false;
 	private $_bIsRunningUnitTest = null;
