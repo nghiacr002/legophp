@@ -22,10 +22,22 @@ class File extends Object implements \APP\Library\Cache\Storage
     	}
         return $sFileName;
     }
-
-    public function get($sFileName)
+	public function getFolder($sFolder = "")
+	{
+		if(empty($sFolder))
+		{
+			$sFolder = "System";
+		}
+		return ucfirst($sFolder);
+	}
+    public function get($sFileName, $sFolder = "")
     {
-        $sRealFile = $this->_sCachePath . $this->_getCacheId($sFileName) . '.php';
+    	if(defined('APP_NO_CACHE') && APP_NO_CACHE)
+    	{
+    		return null;
+    	}
+		$sFolder = $this->getFolder($sFolder);
+        $sRealFile = $this->_sCachePath . $sFolder. APP_DS . $this->_getCacheId($sFileName) . '.php';
 
         if (file_exists($sRealFile))
         {
@@ -34,7 +46,7 @@ class File extends Object implements \APP\Library\Cache\Storage
             {
                 if (isset($TTL) && $TTL > 0)
                 {
-                    if ($TTL > APP_TIME)
+                    if ($TTL < APP_TIME)
                     {
                         return false;
                     }
@@ -45,16 +57,14 @@ class File extends Object implements \APP\Library\Cache\Storage
                 return false;
             }
         }
-        return false;
+        return null;
     }
 
     public function set($sFileName, $mContent = array(), $iTimeToLive = 0, $sFolder = "")
     {
         $sPathStorage = $this->_sCachePath;
-        if (!empty($sFolder))
-        {
-            $sPathStorage = $sPathStorage . $sFolder . APP_DS;
-        }
+        $sFolder = $this->getFolder($sFolder);
+        $sPathStorage = $sPathStorage . $sFolder . APP_DS;
 
         if (!file_exists($sPathStorage))
         {
@@ -71,21 +81,22 @@ class File extends Object implements \APP\Library\Cache\Storage
         }
         try
         {
-            $sData = var_export($mContent, true);
+        	$sData = var_export($mContent, true);
             $sContent = "<?php \$aCacheData = " . $sData . "; \$TTL = " . $iTime . ";\n?>";
             $oFile = @fopen($sRealFile, 'w+');
             @fwrite($oFile, $sContent);
             @fclose($oFile);
         } catch (\AppException $ex)
         {
-            
+
         }
         return true;
     }
 
     public function remove($sFileName, $sFolder = "")
     {
-        $sRealFile = $this->_sCachePath . $this->_getCacheId($sFileName) . '.php';
+    	$sFolder = $this->getFolder($sFolder);
+        $sRealFile = $this->_sCachePath . $sFolder. APP_DS . $this->_getCacheId($sFileName) . '.php';
         if (file_exists($sRealFile))
         {
             @unlink($sRealFile);
@@ -99,7 +110,7 @@ class File extends Object implements \APP\Library\Cache\Storage
         if (is_dir($sFolder))
         {
             $aFiles = (new \APP\Engine\File())->scanFolder($sFolder);
-            
+
             if (count($aFiles))
             {
                 foreach ($aFiles as $sFileName)
@@ -117,12 +128,15 @@ class File extends Object implements \APP\Library\Cache\Storage
                 	{
                 		$this->remove($sFileName);
                 	}
-                    
+
                 }
             }
         }
     }
-
+    public function flush()
+    {
+    	return $this->clean();
+    }
     public function getCaches($sType = "")
     {
         $sDir = $this->_sCachePath . $sType . APP_DS;

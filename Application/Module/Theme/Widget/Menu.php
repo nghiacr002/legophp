@@ -22,7 +22,6 @@ class MenuWidget extends Widget
         }
         else
         {
-
             $aMenus = (new MenuModel())->getMenusByType('main_menu');
         }
         $this->view->aSystemMenus = $aMenus;

@@ -26,11 +26,15 @@ class Model extends Component
         return $this->_iTimeToLive;
     }
 
-    public function cache($iTTL = 100)
+    public function cache($iTTL = null)
     {
+    	if($iTTL == null)
+    	{
+    		$iTTL = (int) (\APP\Engine\Application::getInstance()->getSetting('core.ttl_cache',100));
+    	}
         if (!$this->_oCache)
         {
-            $this->_oCache = (new \APP\Engine\Cache())->getStorage();
+            $this->_oCache = \APP\Engine\Cache::getInstance()->getStorage();
         }
         $this->_iTimeToLive = $iTTL;
         return $this->_oCache;

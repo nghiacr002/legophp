@@ -58,7 +58,7 @@ class Exporter extends \APP\Engine\Module\Exporter
 		switch ($sTable)
 		{
 			case 'setting':
-				$aConds[] = array('module',array('core','mail'),'IN');
+				$aConds[] = array('module',array('core','mail','sitemap'),'IN');
 				break;
 			case 'widgets':
 				$aConds[] = array('module_name',array('core','page'),'IN');

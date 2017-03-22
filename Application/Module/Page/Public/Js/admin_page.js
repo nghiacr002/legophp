@@ -6,8 +6,10 @@ ADMIN_PAGE = {
             ADMIN_PAGE.loadLayout();
         }
         $('#page_layout').on('change', function () {
-        	bootbox.confirm(_TL('theme.you_will_lost_your_changes_are_you_sure'),function(){
-        		ADMIN_PAGE.loadLayout();
+        	bootbox.confirm(_TL('theme.you_will_lost_your_changes_are_you_sure'),function(result){
+        		if(result){
+        			ADMIN_PAGE.loadLayout();
+        		}
         	});        		
         });
         if($('#custom_css').length > 0){

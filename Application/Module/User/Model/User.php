@@ -31,7 +31,7 @@ class User extends Model
                 $mTableKey = $this->_oTable->getPrimaryKey();
             }
             $sCacheName = $sCacheName . md5(serialize($mValue) . serialize($mTableKey));
-            if ($user = $this->cache()->get($sCacheName))
+            if ($user = $this->cache()->get($sCacheName,"Model"))
             {
                 return $user;
             }

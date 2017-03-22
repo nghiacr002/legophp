@@ -83,6 +83,27 @@ class IndexController extends Controller
     	$this->_iCategoryId = $iCategoryId = $this->request()->get('id');
 
 		$this->IndexAction();
+		if($this->_iCategoryId)
+		{
+			$aBreadCrumb = array(
+					'title' => $this->language()->translate('blog.blog'),
+					'extra_title' => '',
+					'icon' => '',
+					'url' => 'javascript:void(0);',
+					'title_extra' => '',
+					'path' => array(
+						$this->url()->makeUrl('blog') => $this->language()->translate('blog.blog'),
+					),
+			);
+			$oCategory = (new Category())->getOne($this->_iCategoryId);
+			if($oCategory && $oCategory->category_id)
+			{
+				$aBreadCrumb['title'] = $oCategory->category_name;
+				$aBreadCrumb['url'] = $oCategory->href;
+			}
+			$this->template()->setBreadCrumb($aBreadCrumb);
+		}
+
     }
     public function ViewAction()
     {

@@ -6,6 +6,8 @@ use APP\Engine\Module\Bootstrap as ModuleBootstrap;
 use APP\Application\Module\Core\Plugin\Twig_Core_Extension;
 use APP\Application\Module\Core\Model\LanguagePatch as LanguagePatch;
 use APP\Application\Module\Core\Model\Category as CategoryModel;
+use APP\Library\Sitemap;
+use APP\Application\Module\Theme\Model\Menu;
 
 class Bootstrap extends ModuleBootstrap
 {
@@ -87,5 +89,32 @@ class Bootstrap extends ModuleBootstrap
 		}
 		return $aItems;
     }
-
+	public function buildSitemap($aParams = array())
+	{
+		//build static content only
+		$oSiteMapXML = new Sitemap();
+		$oSiteMapXML->start('static.xml');
+		$oURL = $this->app->router->url();
+		$sDate = isset($aParams['day']) ? $aParams['day'] : date('Y-m-d');
+		$aMenus = (new Menu())->getMenusByType('main_menu');
+		if(count($aMenus))
+		{
+			foreach($aMenus as $iKey => $aMenu)
+			{
+				$oSiteMapXML->addItem(array(
+					'loc' => $oURL->makeUrl($aMenu['url']),
+					'lastmod' => $sDate,
+				));
+			}
+		}
+		$oSiteMapXML->end();
+		$oSiteMapXML->write();
+		/**
+		 * Should return index map sitemap
+		 */
+		return array(
+			'loc' => $oURL->makeUrl('Public/Sitemap/static.xml'),
+			'lastmod' => $sDate,
+		);
+	}
 }

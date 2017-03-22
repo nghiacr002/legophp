@@ -1,10 +1,9 @@
 {% extends App_Template() %}
 {% block content %}
- <form id="user-browse-filter" action='{{ Template_Url('blog') }}' method="get">
-     {{ oFilter.render() }}
- </form>
+
  <div id="blog-list-holder">
  	{{ Template_Include('blog.css','module_blog') }}
+ 	{% if aBlogs|length > 0 %}
 	<ul class="blog-list-holder">
 	  {% for aBlog in aBlogs %}
 	  	<li>
@@ -28,6 +27,11 @@
 	  	</li>
 	  {% endfor%}
 	 </ul>
+	 {% else %}
+	 	<div class="alert">
+	 		{{ Translate('core.no_items_found') }}
+	 	</div>
+	 {% endif%}
  </div>
  <div class="paging-right-holder">
       {{ paginator.render() }}

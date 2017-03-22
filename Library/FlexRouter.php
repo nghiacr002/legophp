@@ -4,7 +4,10 @@ namespace APP\Library;
 
 class FlexRouter extends \AltoRouter
 {
-
+	public function getBasePath()
+	{
+		return $this->basePath;
+	}
     public function match($requestUrl = null, $requestMethod = null)
     {
 

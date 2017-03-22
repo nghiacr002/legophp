@@ -45,7 +45,7 @@ class Menu extends Model
                 'url' => $this->url()->makeUrl('theme/menu', array('admincp' => true)),
                 'icon' => "fa fa-list"
             ),
-           
+
             array(
                 'name' => $this->language()->translate('theme.layout'),
                 'url' => '#',
@@ -61,7 +61,7 @@ class Menu extends Model
             					'url' => $this->app->router->url()->makeUrl('theme/layout/add', array('admincp' => true)),
             					'icon' => '',
             			),
-            	)	
+            	)
             ),
         	array(
         		'name' => $this->language()->translate('theme.controller'),
@@ -152,9 +152,9 @@ class Menu extends Model
             'and-1' => array(
                 'menu_type', $sType
             ),
-            'and-2' => array(
+           /* 'and-2' => array(
                 'is_active', self::ACTIVATED
-            )
+            )*/
         );
         if ($bIsEditMode)
         {
@@ -184,7 +184,7 @@ class Menu extends Model
     {
         $sCacheName = $this->_oTable->getTableName();
         $sCacheName = $sCacheName . md5($sSelectFields . md5(serialize($mOrder)) . $iPage . $iLimit . md5(serialize($aConds)));
-        if ($aMenus = $this->cache()->get($sCacheName))
+        if ($aMenus = $this->cache()->get($sCacheName,"Model"))
         {
             return $aMenus;
         }
@@ -192,7 +192,7 @@ class Menu extends Model
 
         if ($aMenus)
         {
-            $this->cache()->set($sCacheName, $aMenus, 100, "Model");
+            $this->cache()->set($sCacheName, $aMenus, $this->getTTL(), "Model");
         }
         return $aMenus;
     }

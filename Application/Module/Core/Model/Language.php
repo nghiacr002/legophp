@@ -20,14 +20,14 @@ class Language extends Model
     {
         $sCacheName = $this->_oTable->getTableName();
         $sCacheName = $sCacheName . md5($sSelectFields . $mOrder . $iPage . $iLimit);
-        if ($aRows = $this->cache()->get($sCacheName))
+        if ($aRows = $this->cache()->get($sCacheName,"Model"))
         {
             return $aRows;
         }
         $aRows = parent::getAll($aConds, $iPage, $iLimit, $sSelectFields, $mOrder);
         if ($aRows)
         {
-            $this->cache()->set($sCacheName, $aRows, 100, "Model");
+            $this->cache()->set($sCacheName, $aRows, $this->getTTL(), "Model");
         }
         return $aRows;
     }
@@ -65,7 +65,7 @@ class Language extends Model
 		$aConds = array();
 		if(empty($sLanguageCode))
 		{
-			$aLanguages = $this->getAll(); 
+			$aLanguages = $this->getAll();
 			$aPhrases = array();
 			foreach($aLanguages as $iKey => $oLanguage)
 			{
@@ -84,7 +84,7 @@ class Language extends Model
 			$aPatchLanguages = isset($aPatchLanguages[$sLanguageCode]) ? $aPatchLanguages[$sLanguageCode] : array();
 			$aPhrases = array_merge($aPhrases,$aPatchLanguages);
 		}
-		return $aPhrases; 
+		return $aPhrases;
 	}
 	public function fetchLanguagePhrases($sCode)
 	{
@@ -103,6 +103,6 @@ class Language extends Model
 			}
 		}
 		return $aReturn;
-		
+
 	}
 }

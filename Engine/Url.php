@@ -3,6 +3,7 @@
 namespace App\Engine;
 
 use APP\Engine\Object;
+use APP\Engine\Utils;
 
 class Url extends Object
 {
@@ -89,10 +90,7 @@ class Url extends Object
 
     public function getCurrentUrl()
     {
-        $sUrl = "{$_SERVER['HTTP_HOST']}/{$_SERVER['REQUEST_URI']}";
-        $sUrl = str_replace('//', '/', $sUrl);
-        $sUrl = 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . $sUrl;
-        return $sUrl;
+       return Utils::getCurrentURL();
     }
 
 }

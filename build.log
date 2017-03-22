@@ -1,4 +1,4 @@
-Build App Core Release --- 1.03.01032017
+Build App Core Release --- 1.18.13032017
 Copy Application
 Copy DevTool
 Copy Engine
@@ -10,4 +10,5 @@ Copy index.php
 Copy install.php
 Copy unit-test.php
 Export DB for module core
+Export DB for module page
 Export DB for module blog

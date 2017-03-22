@@ -24,14 +24,14 @@ class Page extends Model
     public function getByUrl($sUrl)
     {
         $sCacheName = "page-" . $sUrl;
-        if ($aRow = $this->cache()->get($sCacheName))
+        if ($aRow = $this->cache()->get($sCacheName,"Model"))
         {
             return $aRow;
         }
         $aRow = $this->getOne($sUrl, "page_url");
         if ($aRow)
         {
-            $this->cache()->set($sCacheName, $aRow, 1000, "Model");
+            $this->cache()->set($sCacheName, $aRow, $this->getTTL(), "Model");
         }
         return $aRow;
     }
@@ -41,7 +41,7 @@ class Page extends Model
         $sCacheName = $this->_oTable->getTableName();
         $sCacheName = $sCacheName . md5($sSelectFields . $mOrder . $iPage . $iLimit);
 
-        if ($aRows = $this->cache()->get($sCacheName))
+        if ($aRows = $this->cache()->get($sCacheName,"Model"))
         {
             return $aRows;
         }
@@ -80,14 +80,14 @@ class Page extends Model
 	public function getLandingPage()
 	{
 		$sCacheName = "page-landing-page";
-		if ($aRow = $this->cache()->get($sCacheName))
+		if ($aRow = $this->cache()->get($sCacheName,"Model"))
 		{
 			return $aRow;
 		}
 		$aRow =  $this->getOne(1, 'is_landing_page');
 		if ($aRow)
 		{
-			$this->cache()->set($sCacheName, $aRow, 3600, "Model");
+			$this->cache()->set($sCacheName, $aRow, $this->getTTL(), "Model");
 		}
 		return $aRow;
 

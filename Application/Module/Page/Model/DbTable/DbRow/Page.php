@@ -5,6 +5,7 @@ namespace APP\Application\Module\Page\Model\DbTable\DbRow;
 use APP\Engine\Database\DbRow;
 use APP\Application\Module\Page\Model\Page as PageModel;
 use App\Engine\Url;
+use APP\Engine\Database\Query;
 
 class Page extends DbRow
 {
@@ -31,5 +32,24 @@ class Page extends DbRow
         }
         return $this->app()->language->translate($sText);
     }
+	public function delete()
+	{
+		$mResult = parent::delete();
+		//clean
+		$oQuery = new Query();
+		$oQuery->setCommand("Delete");
+		$oQuery->from(\APP\Engine\Database\DbTable::getFullTableName('layout_widgets'));
+		$oQuery->where('item_type','page');
+		$oQuery->where('item_id',$this->page_id);
+		$oQuery->execute();
 
+		$oQuery = new Query();
+		$oQuery->setCommand("Delete");
+		$oQuery->from(\APP\Engine\Database\DbTable::getFullTableName('meta_tags'));
+		$oQuery->where('item_type','page');
+		$oQuery->where('item_id',$this->page_id);
+		$oQuery->execute();
+
+		return $mResult;
+	}
 }

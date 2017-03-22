@@ -60,6 +60,7 @@ class Application {
 	}
 	public function getSystemInformation() {
 		$aDatabaseInfo = $this->database->getInfo ();
+
 		return array (
 				'sName' => $this->_sName,
 				'sVersion' => $this->_sVersion,
@@ -67,7 +68,8 @@ class Application {
 				'aDatabaseInfo' => array (
 						'connector' => $this->getConfig ( 'db', 'adapter' ),
 						'version' => $aDatabaseInfo ['server_info']
-				)
+				),
+				'aCacheInfo' => Cache::getInstance()->getInfo()
 		);
 	}
 	public function isRunningUnitTest() {
@@ -90,12 +92,19 @@ class Application {
 		$this->session = new \APP\Engine\Session ();
 		$this->cookie = new \APP\Engine\Cookie ();
 		$this->database = new \APP\Engine\Database ();
-
 		$this->_aSettings = (new Setting ())->getAll ();
+		if($this->getSetting('core.cache_html_output'))
+		{
+			$sCurrentURL = Utils::getCurrentURL();
+			$sContent =  Cache::getInstance()->getStorage()->get("static_".md5($sCurrentURL),"HTML");
+			if($sContent)
+			{
+				system_display_result($sContent);
+			}
+		}
 		$aLanguage = (new Language ())->getDefaultLanguage ();
 		$sDefaultLanguage = isset ( $aLanguage->language_code ) ? $aLanguage->language_code : $this->_aConfigs ['system'] ['language'];
 		$this->language = new \APP\Engine\Language ( $sDefaultLanguage );
-
 		$this->flash = new \APP\Engine\Flash ();
 		$this->request = new \APP\Engine\Request ();
 		$this->router = new \APP\Engine\Router ();
@@ -201,6 +210,7 @@ class Application {
 		return false;
 	}
 	public function execute() {
+
 		$this->init ();
 		$sBasePath = $this->_aConfigs ['system'] ['base_path'];
 		if ($this->isAdminPanel ()) {
@@ -294,7 +304,7 @@ class Application {
 		$oController = $this->module->getInstanceController();
 		$sAction = $this->module->getCurrentAction();
 		$sContent = $oController->getContent ( $sAction );
-		return $this->_render($sContent);
+		return  $this->_render($sContent);
 	}
 	protected function _render($sContent) {
 		// check if has layout extends for body view
@@ -303,6 +313,11 @@ class Application {
 			$sContent = $this->template->assign ( array (
 					'site_content' => $sSiteContent
 			) )->render ();
+		}
+		if($this->getSetting('core.cache_html_output'))
+		{
+			$sCurrentURL = $this->router->url()->getCurrentUrl();
+			Cache::getInstance()->getStorage()->set("static_".md5($sCurrentURL),$sContent,$this->getSetting('core.ttl_cache'),"HTML");
 		}
 		system_display_result ( $sContent );
 	}

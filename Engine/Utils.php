@@ -13,7 +13,17 @@ class Utils
         }
         return date($sFormatTime, $iUnixTime);
     }
-
+	public static function getCurrentURL()
+	{
+		if(!isset($_SERVER['HTTP_HOST']))
+		{
+			return $_SERVER['SCRIPT_FILENAME'];
+		}
+		$sUrl = "{$_SERVER['HTTP_HOST']}/{$_SERVER['REQUEST_URI']}";
+		$sUrl = str_replace('//', '/', $sUrl);
+		$sUrl = 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . $sUrl;
+		return $sUrl;
+	}
     public static function file_size($iSize, $sReturnData = "kb")
     {
         if (!is_numeric($iSize))

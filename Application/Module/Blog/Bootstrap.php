@@ -4,13 +4,14 @@ namespace APP\Application\Module\Blog;
 
 use APP\Engine\Module\Bootstrap as ModuleBootstrap;
 use APP\Application\Module\Blog\Model\Blog as BlogModel;
+use APP\Library\Sitemap;
 
 class Bootstrap extends ModuleBootstrap
 {
 
     protected function initTemplate()
     {
-        
+
     }
 
     public function getAdminMenu()
@@ -54,5 +55,51 @@ class Bootstrap extends ModuleBootstrap
     protected function subscribeEvent()
     {
     	$this->app()->event->subscribe("onDeleteBlog",array((new BlogModel()),'onDeleteBlog'));
+    }
+    public function buildSitemap($aParams = array())
+    {
+    	//build static content only
+    	$oSiteMapXML = new Sitemap();
+    	$oURL = $this->app->router->url();
+    	$sDate = isset($aParams['day']) ? $aParams['day'] : date('Y-m-d');
+    	$oBlogModel = (new BlogModel());
+    	$iPage = 1;
+    	$iLimit = 1000;
+    	$aConds = array(
+    		array('blog_status',BlogModel::STATUS_ACTIVATED)
+    	);
+    	$aSiteIndexMap = array();
+		do
+		{
+			$aBlogs = $oBlogModel->getAll($aConds,$iPage,$iLimit);
+			if(is_array($aBlogs) && count($aBlogs))
+			{
+				$sBlogSiteMapName = 'blog-'.$iPage.'.xml';
+				$oSiteMapXML->start($sBlogSiteMapName);
+				$aSiteIndexMap[] = array(
+			    		'loc' => $oURL->makeUrl('Public/Sitemap/' . $sBlogSiteMapName),
+			    		'lastmod' => $sDate,
+			    	);
+				foreach($aBlogs as $oBlog)
+				{
+					$oSiteMapXML->addItem(array(
+						'loc' => $oBlog->href(),
+						'lastmod' => $sDate,
+					));
+				}
+				$oSiteMapXML->end();
+				$oSiteMapXML->write();
+				$iPage++;
+			}
+			else
+			{
+				break;
+			}
+
+		}while(1==1);
+    	/**
+    	 * Should return index map sitemap
+    	 */
+    	return $aSiteIndexMap;
     }
 }

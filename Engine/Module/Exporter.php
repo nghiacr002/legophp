@@ -49,7 +49,7 @@ class Exporter extends Component
 		$mData = $oQuery->select ( "SHOW CREATE TABLE " . $sFullTableName )->execute ();
 		$sHashTable = self::HASH_PREFIX . $sTableName;
 		$bIsQueryInseart = isset($aConfig['no-structure']) ? $aConfig['no-structure']: false;
-		if (isset ( $mData [0] ['Create Table'] ) && !$aConfig['no-structure'])
+		if (isset ( $mData [0] ['Create Table'] ) && !$bIsQueryInseart)
 		{
 			$sSQL = str_ireplace ( 'CREATE TABLE `', 'CREATE TABLE IF NOT EXISTS `', $mData [0] ['Create Table'] );
 			$sSQL = str_ireplace ( '`' . $sFullTableName . '`', '`' . $sHashTable . '`', $sSQL );

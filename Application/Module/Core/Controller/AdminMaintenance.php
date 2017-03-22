@@ -5,6 +5,7 @@ namespace APP\Application\Module\Core;
 use APP\Engine\Module\Controller;
 use APP\Application\Module\Core\Model\Maintenance;
 use APP\Engine\Utils;
+use APP\Engine\Cache;
 
 class AdminMaintenanceController extends Controller
 {
@@ -30,6 +31,13 @@ class AdminMaintenanceController extends Controller
             }
             $this->url()->redirect('core/maintenance',array('admincp' => true), $this->language()->translate('core.cache_cleaned'));
         }
+        $aCacheInfo = Cache::getInstance()->getInfo();
+        $this->view->sAdapterCache = $aCacheInfo['adapter'];
+        if($this->request()->get('flush'))
+        {
+        	$oMaintenance->flush();
+        	$this->url()->redirect('core/maintenance',array('admincp' => true), $this->language()->translate('core.cache_cleaned'));
+        }
         $aFolders = $oMaintenance->getFolders();
         $this->template()->setHeader(array(
             'maintenance.js' => 'module_core'
@@ -46,6 +54,15 @@ class AdminMaintenanceController extends Controller
             ),
         );
         $this->template()->setBreadCrumb($aBreadCrumb);
+        $aMenus = array(
+        		'add-new' => array(
+        				'title' => $this->language()->translate('core.flush_cache'),
+        				'action' => $this->url()->makeUrl('core/maintenance',array('admincp' => true,'flush' => $aCacheInfo['adapter'])),
+        				'custom' => '',
+        				'class' => 'btn btn-warning flush-cache-btn'
+        		)
+        );
+        $this->app()->setSharedData('custom-menu-header',$aMenus);
     }
 
     public function CleanAction()

@@ -24,6 +24,7 @@ class BlogItem extends HtmlForm
         $oInput = new Select();
         $oInput->setName("category_id");
         $aCategories = (new Category())->getCategoriesByType("blog");
+
         foreach ($aCategories as $ikey => $aCategory)
         {
             $aSubCats = array();

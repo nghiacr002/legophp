@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace APP\Application\Module\Core\Model;
 use APP\Engine\Module\Model;
 use APP\Application\Module\Core\Model\DbTable\LanguagePatch as DbLanguagePatch;
@@ -14,7 +14,7 @@ class LanguagePatch extends Model
         $sCacheName = $this->_oTable->getTableName();
         $sCacheName = $sCacheName . md5($sSelectFields . $mOrder . $iPage . $iLimit);
 
-        if ($aRows = $this->cache()->get($sCacheName))
+        if ($aRows = $this->cache()->get($sCacheName,"Model"))
         {
             return $aRows;
         }

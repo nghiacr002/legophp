@@ -19,14 +19,14 @@ class Country extends Model
     {
         $sCacheName = $this->_oTable->getTableName();
         $sCacheName = $sCacheName . md5($sSelectFields . $mOrder . $iPage . $iLimit);
-        if ($oCountries = $this->cache()->get($sCacheName))
+        if ($oCountries = $this->cache()->get($sCacheName,"Model"))
         {
             return $oCountries;
         }
         $oCountries = parent::getAll($aConds, $iPage, $iLimit, $sSelectFields, $mOrder);
         if ($oCountries)
         {
-            $this->cache()->set($sCacheName, $oCountries, 100, "Model");
+            $this->cache()->set($sCacheName, $oCountries, $this->getTTL(), "Model");
         }
         return $oCountries;
     }

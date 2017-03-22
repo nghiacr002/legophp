@@ -20,7 +20,7 @@ class Theme extends Model
     {
         $sCacheName = $this->_oTable->getTableName();
         $sCacheName = $sCacheName . md5($sSelectFields . $mOrder . $iPage . $iLimit);
-        if ($aRows = $this->cache()->get($sCacheName))
+        if ($aRows = $this->cache()->get($sCacheName,"Model"))
         {
             return $aRows;
         }

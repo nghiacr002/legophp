@@ -117,7 +117,7 @@ class MetaTag extends Model
     {
         $sCacheName = $this->_oTable->getTableName();
         $sCacheName = $sCacheName . md5($sSelectFields . $mOrder . $iPage . $iLimit);
-        if ($aRows = $this->cache()->get($sCacheName))
+        if ($aRows = $this->cache()->get($sCacheName,"Model"))
         {
             return $aRows;
         }
@@ -125,7 +125,7 @@ class MetaTag extends Model
 
         if ($aRows)
         {
-            $this->cache()->set($sCacheName, $aRows, 100, "Model");
+            $this->cache()->set($sCacheName, $aRows, $this->getTTL(), "Model");
         }
         return $aRows;
     }

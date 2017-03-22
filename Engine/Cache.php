@@ -13,14 +13,26 @@ class Cache
         $this->init();
         self::$instance = $this;
     }
-
+	public function getInfo()
+	{
+		$app = \APP\Engine\Application::getInstance();
+		$aCache = $app->getConfig('cache');
+		$sAdapter = ucfirst($aCache['storage']);
+		$aOptions = $app->getConfig($aCache['storage']);
+		return array(
+			'adapter' => $sAdapter,
+			'options' => $aOptions
+		);
+	}
     public function init()
     {
-        $this->_aConfigs = \APP\Engine\Application::getInstance()->getConfig('cache');
+
+		$aConfigInfo = $this->getInfo();
         $sNamespace = "\\APP\\Library\\Cache\\Storage\\";
-        $sAdapter = ucfirst($this->_aConfigs['storage']);
+        $sAdapter = $aConfigInfo['adapter'];
+        $aOptions = $aConfigInfo['options'];
         $sFullClass = $sNamespace . $sAdapter;
-        $this->_oStorage = new $sFullClass();
+        $this->_oStorage = new $sFullClass($aOptions);
         return $this;
     }
 

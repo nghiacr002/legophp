@@ -55,7 +55,8 @@ class AdminIndexController extends Controller
 					'status' => 0,
 					'message' => $this->language ()->translate ( 'core.you_does_not_have_permission_to_access_this_area' )
 			);
-		} else
+		}
+		else
 		{
 			$aReturn = array (
 					'status' => HTTP_CODE_BAD_REQUEST,
@@ -116,12 +117,23 @@ class AdminIndexController extends Controller
 									$sHash = isset ( $aWigetInfo ['ehash'] ) ? $aWigetInfo ['ehash'] : "";
 									$aSubmitData = $oWidgetModel->getFromSession ( $sHash );
 									$aParamValues = isset ( $aSubmitData ['params'] ) ? $aSubmitData ['params'] : array ();
-									if ($oWidgetInstance && $oWidgetInstance->pw_id)
+									$bIsInsert = true;
+									if($oWidgetInstance && $oWidgetInstance->pw_id)
+									{
+										if($oWidgetInstance->layout_id == $iLayoutId
+												&& $oWidgetInstance->item_id == $iPageId
+												&& $oWidgetInstance->item_type == $sType
+											){
+											$bIsInsert = false;
+										}
+									}
+									if (!$bIsInsert)
 									{
 										if (isset ( $aWigetInfo ['remove'] ) && $aWigetInfo ['remove'] == 1)
 										{
 											$oWidgetInstance->delete ();
-										} else
+										}
+										else
 										{
 											if ($aSubmitData)
 											{
@@ -130,14 +142,15 @@ class AdminIndexController extends Controller
 											$oWidgetInstance->ordering = $iCnt;
 											$oWidgetInstance->update ();
 										}
-									} else
+									}
+									else
 									{
 										if (! empty ( $sHash ))
 										{
 											$aInsert = array (
 													'item_id' => $iPageId,
 													'widget_id' => $aWigetInfo ['widget_id'],
-													'item_type' => $this->request ()->get ( 'item_type', 'page' ),
+													'item_type' => $sType,
 													'location_id' => $aLocation ['id'],
 													'param_values' => $aParamValues,
 													'ordering' => $iCnt,

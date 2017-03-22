@@ -8,7 +8,6 @@ use APP\Engine\Module\Model;
 
 class Note extends Model
 {
-
     public function __construct()
     {
         $this->_oTable = new DbNote();

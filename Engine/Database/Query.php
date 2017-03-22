@@ -309,7 +309,6 @@ class Query
 	protected function _buildWhere()
 	{
 		$where = "";
-
 		if (count ( $this->_aConds ))
 		{
 			foreach ( $this->_aConds as $key => $aCond )

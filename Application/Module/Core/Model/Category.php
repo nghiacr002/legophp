@@ -29,7 +29,7 @@ class Category extends Model
     public function getCategoriesByType($sType = "system", $iParentId = 0, $bIsEditMode = false)
     {
         $aConds = array(
-            'and-1' => array(
+            'category_type' => array(
                 'category_type', $sType
             ),
             'and-2' => array(
@@ -43,6 +43,7 @@ class Category extends Model
         $aConds['and-3'] = array(
             'parent_id', (int) $iParentId
         );
+
         $aCategories = array();
         $aRows = $this->getAll($aConds, null, null, '*', array('ordering', 'ASC'));
         if (count($aRows))
@@ -57,10 +58,8 @@ class Category extends Model
                 $aCategories[$aRow['category_id']] = $aRow;
             }
         }
-
         return $aCategories;
     }
-
     public function getAllWithCache($aConds = array(), $iPage = null, $iLimit = null, $sSelectFields = "*", $mOrder = null)
     {
     	if (!empty($this->_sType))
@@ -71,14 +70,14 @@ class Category extends Model
     	}
 	    $sCacheName = $this->_oTable->getTableName();
         $sCacheName = $sCacheName . md5($sSelectFields . serialize($mOrder) . $iPage . $iLimit);
-        if ($aRows = $this->cache()->get($sCacheName))
+        if ($aRows = $this->cache()->get($sCacheName,"Model"))
         {
             return $aRows;
         }
         $aRows = parent::getAll($aConds, $iPage, $iLimit, $sSelectFields, $mOrder);
         if ($aRows)
         {
-            $this->cache()->set($sCacheName, $aRows, 100, "Model");
+            $this->cache()->set($sCacheName, $aRows, $this->getTTL(), "Model");
         }
         return $aRows;
     }
@@ -87,7 +86,7 @@ class Category extends Model
     {
         if (!empty($this->_sType))
         {
-            $aConds[] = array(
+            $aConds['category_type'] = array(
                 'category_type', $this->_sType
             );
         }

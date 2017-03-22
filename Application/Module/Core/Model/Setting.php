@@ -20,7 +20,7 @@ class Setting extends Model
         $sCacheName = $this->_oTable->getTableName();
         $sCacheName = $sCacheName . md5($sSelectFields . $mOrder . $iPage . $iLimit);
 
-        if ($aSettings = $this->cache()->get($sCacheName))
+        if ($aSettings = $this->cache()->get($sCacheName,"Model"))
         {
             return $aSettings;
         }
@@ -37,7 +37,7 @@ class Setting extends Model
         }
         if ($aResult)
         {
-            $this->cache()->set($sCacheName, $aResult, 100, "Model");
+            $this->cache()->set($sCacheName, $aResult, $this->getTTL(), "Model");
         }
         return $aResult;
     }

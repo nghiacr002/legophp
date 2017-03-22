@@ -7,7 +7,7 @@
 	{% endif%}
 	{% if aBreadCrumb.path|length >0 %}
 	<ol class="breadcrumb">
-	    <li><a href="{{ Template_Url('',{'admincp':true}) }}"><i class="fa fa-dashboard"></i> {{ Translate('core.home') }}</a></li>
+	    <li><a href="{{ sHomeURL}}"><i class="fa fa-dashboard"></i> {{ Translate('core.home') }}</a></li>
 	        {% for url,sBreadCrumb in aBreadCrumb.path %}
 	    <li>
 	        <a href="{{ Template_Url(url) }}"> {{ sBreadCrumb}}</a>

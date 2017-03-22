@@ -25,5 +25,8 @@ class APC implements \APP\Library\Storage
     {
         apc_clear_cache($sType);
     }
-
+	public function getCaches()
+	{
+		return null;
+	}
 }

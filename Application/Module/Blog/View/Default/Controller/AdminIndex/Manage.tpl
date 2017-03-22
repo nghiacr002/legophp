@@ -22,9 +22,11 @@
             <div class="box-body no-padding ">
                 {% if aBlogs|length > 0 %}
                 <div class="table-responsive">
+                 <form method="post" action="" >
                     <table class="table table-hover table-bordered">
                         <tbody>
                             <tr>
+                            	<th style="width:30px"><input type="checkbox" value="1"  id="select_all" bind="selectall"/></th>
                                 <th style="width:50px;" >{{ Translate('core.id') }}</th>
                                 <th style="width:50px;"  >{{ Translate('blog.image') }}</th>
                                 <th >{{ Translate('blog.blog_title') }}</th>
@@ -36,6 +38,7 @@
 
                                 {% for aBlog in aBlogs %}
                             <tr class="blog-row" id="blog-row-{{ aBlog.blog_id }}">
+                            	<td><input type="checkbox" value="{{ aBlog.blog_id }}" name="blog[]" class="selectall"/></td>
                                 <td>
                                 <a href="{{ Template_Url('blog/edit',{"admincp":true, "id" : aBlog.blog_id}) }}">#{{ aBlog.blog_id}}</a></td>
 
@@ -66,8 +69,15 @@
                             {% endfor%}
 
                         </tbody>
-
+						<tfoot>
+                                <tr>
+                                    <td colspan="6" align="left">
+                                        <input class="btn btn-danger" value="{{ Translate('core.delete_selected') }}" type="submit"/>
+                                    </td>
+                                </tr>
+                            </tfoot>
                     </table>
+                         </form>
                 </div>
                 {% else %}
                 <div class="alert alert-warning" style="margin:5px 10px;">{{ Translate('core.no_items_found') }}</div>

@@ -225,6 +225,22 @@ class AdminIndexController extends Controller
     {
         $this->auth()->acl()->hasPerm('blog.can_access_blog', true);
         $oBlogModel = (new BlogModel());
+        if ($this->request()->isPost())
+        {
+        	$aBlogs = $this->request()->get('blog');
+        	if (is_array($aBlogs) && count($aBlogs))
+        	{
+        		foreach ($aBlogs as $iBlogId)
+        		{
+        			$oBlog = $oBlogModel->getOne($iBlogId);
+        			if($oBlog && $oBlog->blog_id)
+        			{
+        				$oBlog->delete();
+        			}
+        		}
+        	}
+        	$this->url()->redirect('blog/manage',array('admincp' => true), $this->language()->translate('blog.deleted_blog_successfully'));
+        }
         $iLimit = $this->request()->get('limit', 20);
         $iCurrentPage = $this->request()->get('page', 1);
         $this->view->oFilter = $oFilter = new Filter();

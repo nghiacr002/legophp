@@ -19,14 +19,14 @@ class Module extends Model
     {
         $sCacheName = $this->_oTable->getTableName();
         $sCacheName = $sCacheName . md5($sSelectFields . $mOrder . $iPage . $iLimit);
-        if ($oModules = $this->cache()->get($sCacheName))
+        if ($oModules = $this->cache()->get($sCacheName,"Model"))
         {
             return $oModules;
         }
         $oModules = parent::getAll($aConds, $iPage, $iLimit, $sSelectFields, $mOrder);
         if ($oModules)
         {
-            $this->cache()->set($sCacheName, $oModules, 100, "Model");
+            $this->cache()->set($sCacheName, $oModules, $this->getTTL(), "Model");
         }
         return $oModules;
     }

@@ -101,8 +101,18 @@ class Event extends Object
 	protected function getHash($mCallableFunction)
 	{
 		$sHash = "";
+
 		if(is_array($mCallableFunction))
 		{
+			if(is_object($mCallableFunction[0]))
+			{
+				$sClass = get_class($mCallableFunction[0]);
+			}
+			else
+			{
+				$sClass = $mCallableFunction[0];
+			}
+			$mCallableFunction[0] = $sClass;
 			$mCallableFunction = serialize($mCallableFunction);
 		}
 		$sHash = md5($mCallableFunction);

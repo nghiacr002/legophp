@@ -30,6 +30,17 @@
                             <td class="value-text">{{ Translate('core.database_version') }}</td>
                             <td style="width: 100px" class="value-info">{{ aSystemInformation.aDatabaseInfo.version }}</td>
                         </tr>
+                         <tr>
+                            <td class="value-text">{{ Translate('core.cache_info') }}</td>
+                            <td style="width: 100px" class="value-info">
+                            	{{ aSystemInformation.aCacheInfo.adapter }}
+                            	{% if aSystemInformation.aCacheInfo.options|length > 0 %}
+                            		{% for key,value in aSystemInformation.aCacheInfo.options %}
+                            			<p style="margin:2px 0;">{{key|capitalize}}: {{value}}</p>
+                            		{% endfor %}
+                            	{% endif%}
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

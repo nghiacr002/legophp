@@ -2,9 +2,10 @@
 
 namespace APP\Application\Module\Core\Model;
 
+use APP\Engine\Cache;
+
 class Maintenance
 {
-
     public function removeItem($sPath, $bRemoveRoot = false)
     {
         if (is_file($sPath))
@@ -77,5 +78,8 @@ class Maintenance
         }
         return $aResults;
     }
-
+	public function flush()
+	{
+		return Cache::getInstance()->getStorage()->flush();
+	}
 }

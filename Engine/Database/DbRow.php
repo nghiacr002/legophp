@@ -11,7 +11,7 @@ class DbRow extends \APP\Engine\Object
     protected $_oValidator;
     protected $_aErrors;
 
-    public function __construct($mTableName)
+    public function __construct($mTableName = "")
     {
         if (is_object($mTableName))
         {
@@ -106,7 +106,7 @@ class DbRow extends \APP\Engine\Object
         }
         return false;
     }
-	
+
     public function save()
     {
     	$this->beforeSave();
@@ -142,15 +142,15 @@ class DbRow extends \APP\Engine\Object
     }
     public function beforeSave()
     {
-    	
+
     }
     public function beforeUpdate()
     {
-    	
+
     }
     public function beforeDelete()
     {
-    	
+
     }
     protected function catchError()
     {
@@ -186,5 +186,5 @@ class DbRow extends \APP\Engine\Object
     {
         return "#";
     }
-	
+
 }
