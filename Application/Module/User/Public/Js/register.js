@@ -27,7 +27,7 @@ REGISTER_FORM = {
 	    }	    
 	    return true;
 	}
-}
+};
 $(document).ready(function(){
 	REGISTER_FORM.init();
 })

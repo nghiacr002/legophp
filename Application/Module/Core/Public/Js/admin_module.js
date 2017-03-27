@@ -4,7 +4,7 @@ ADMIN_MODULE = {
             size: "small"
         });
     }
-}
+};
 $(document).ready(function () {
     ADMIN_MODULE.init();
 });

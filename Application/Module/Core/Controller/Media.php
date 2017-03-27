@@ -25,7 +25,6 @@ class MediaController extends Controller
             APP_UPLOAD_PATH . "Thumb",
         );
     }
-
     public function OriginalAction()
     {
         $sPath = $this->request()->get('path');
@@ -34,8 +33,14 @@ class MediaController extends Controller
         {
             $sPath = urldecode($sPath);
             $sFullPath = APP_UPLOAD_PATH . $sPath;
+
             if (file_exists($sFullPath))
             {
+            	$oImage = new Image();
+            	if (Utils::isImage($sFullPath))
+            	{
+            		return (new Image())->displayContent($sFullPath);
+            	}
                 return (new File())->displayContent($sFullPath);
             }
         }

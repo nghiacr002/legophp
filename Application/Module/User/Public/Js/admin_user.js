@@ -19,7 +19,7 @@ ADMIN_USER = {
         });
         $('#birthday').datepicker();
     }
-}
+};
 $(document).ready(function () {
     ADMIN_USER.init();
 });

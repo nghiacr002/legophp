@@ -15,7 +15,7 @@ FLASH = {
             $('.content-flash').remove();
         }
     }
-}
+};
 $(document).ready(function () {
     FLASH.init();
 });

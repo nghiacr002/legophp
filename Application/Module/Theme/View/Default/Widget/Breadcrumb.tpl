@@ -1,4 +1,7 @@
 {% if not bNoBreadcrumb %}
+{% if (not bIsAdminCP) and  (aBreadCrumb.title or aBreadCrumb.path|length >0)%}
+<div class="breadcrumb-holder">
+{% endif%}
 	{% if aBreadCrumb.title %}
 		<h1>
 		    {{ aBreadCrumb.title}}
@@ -15,4 +18,7 @@
 	    {% endfor %}
 	</ol>
 	{% endif %}
+{% if (not bIsAdminCP) and (aBreadCrumb.title or aBreadCrumb.path|length >0)%}
+</div>
+{% endif%}
 {% endif %}

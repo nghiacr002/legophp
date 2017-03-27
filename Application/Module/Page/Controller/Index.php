@@ -52,9 +52,9 @@ class IndexController extends Controller
         $aMetaTags = (new MetaTag())->getByItem($aStaticPage['page_id'], "page",true);
         if(count($aMetaTags))
         {
-        	foreach($aMetaTags as $sTag)
+        	foreach($aMetaTags as $sTag => $sTagContent)
         	{
-        		$this->template()->setMeta($sTag);
+        		$this->template()->setMeta($sTagContent,$sTag);
         	}
         }
         //$this->template()->setCustomMetaTags($aMetaTags);

@@ -217,7 +217,7 @@ ADMIN_WIDGET = {
         });
         return false;
     }
-}
+};
 $(document).ready(function () {
     ADMIN_WIDGET.init();
 });

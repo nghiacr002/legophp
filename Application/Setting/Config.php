@@ -8,7 +8,8 @@ $_CONF['db'] = array(
     'port' => 3306,
     'prefix' => 'tbl_',
     'adapter' => 'mysqli',
-    'charset' => 'utf8'
+    'charset' => 'utf8',
+	'type' => 'mysql',
 );
 $_CONF['api_versions'] = array(
     'default', '1.1',
@@ -21,11 +22,9 @@ $_CONF['system'] = array(
     'admin_path' => 'admincp',
     'language' => 'en',
 );
-$_CONF['app'] = array(
-	'version' => '1',
-	'name' => 'BeanVN',
-	'release' => '', //time
-	'build' => '',
+$_CONF['apps'] = array(
+	'version' => '1.00.00000000',
+	'name' => 'LEGO-BEAN'
 );
 $_CONF['cookie'] = array(
     'prefix' => 'simplecms_',
@@ -34,8 +33,13 @@ $_CONF['cookie'] = array(
     'domain' => '',
 );
 $_CONF['cache'] = array(
-    'storage' => 'file',
+    'storage' => 'file',//file or redis
     'path' => APP_CACHE_PATH,
+);
+$_CONF['redis'] = array(
+	'host' => '127.0.0.1',
+	'port' => 6379,
+	'schema' => 'tcp'
 );
 $_CONF['enviroment'] = 'development';
 $_CONF['security'] = array(
@@ -47,13 +51,15 @@ $_CONF['template'] = array(
     'prefix' => ".tpl",
 );
 $_CONF['minify'] = array(
-    'css' => false,
-    'js' => false,
+    'css' => true,
+    'js' => true,
     'file_size' => 256, //kb
 );
+/*
 $_CONF['gzip'] = array(
     'css' => false,
     'js' => false,
-    'template' => false,
-);
+    'template' => true,
+	'level' => 3
+);*/
 ?>

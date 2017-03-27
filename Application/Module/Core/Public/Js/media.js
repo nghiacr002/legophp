@@ -16,7 +16,7 @@ MEDIA_ADMIN = {
             deleteUrl: CORE.params['sBaseUrl'] + 'core/media/delete',
         });
     }
-}
+};
 $(document).ready(function () {
     MEDIA_ADMIN.init();
 });

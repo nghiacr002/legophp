@@ -51,7 +51,7 @@ MAINTENANCE = {
             alert(data);
         });
     }
-}
+};
 $(document).ready(function () {
     MAINTENANCE.init();
-})
+});

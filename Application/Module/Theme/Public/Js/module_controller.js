@@ -26,7 +26,7 @@ MC = {
 		});
 		return false;
 	}
-}
+};
 $(document).ready(function(){
 	/*if($('#custom_css').length > 0){
 		editor = CORE.editor4Code('#custom_css');

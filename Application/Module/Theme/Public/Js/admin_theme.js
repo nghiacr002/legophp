@@ -48,7 +48,7 @@ ADMIN_THEME = {
             DEFAULT_UPDATE = false;
         });
     }
-}
+};
 $(document).ready(function () {
     ADMIN_THEME.init();
 });

@@ -182,7 +182,7 @@ ADMIN_PAGE = {
         }
         );
     }
-}
+};
 $(document).ready(function () {
     ADMIN_PAGE.init();
 });

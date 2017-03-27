@@ -18,7 +18,7 @@ ADMIN_GROUP = {
             }
         });
     }
-}
+};
 $(document).ready(function () {
     ADMIN_GROUP.init();
 });

@@ -113,6 +113,20 @@ class IndexController extends Controller
     	{
     		$this->url()->redirect('blog',array(),$this->language()->translate('core.item_not_found'),'error');
     	}
+    	$oCategory = (new Category())->getOne($oBlog->category_id);
+    	$sURLCategory = $oCategory->href();
+    	$aBreadCrumb = array(
+			'title' => $oBlog->blog_title,
+			'extra_title' => '',
+			'icon' => '',
+			'url' => 'javascript:void(0);',
+			'title_extra' => '',
+			'path' => array(
+				$this->url()->makeUrl('blog') => $this->language()->translate('blog.blog'),
+				$sURLCategory => $oCategory->category_name,
+			),
+		);
+    	$this->template()->setBreadCrumb($aBreadCrumb);
     	if($oBlog->layout_id > 0)
     	{
     		$oLayoutModel = (new Layout());

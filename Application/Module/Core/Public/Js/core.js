@@ -5,7 +5,7 @@ var CAPPEDITOR = function(element,container){
 };
 CAPPEDITOR.prototype.insertContent = function(content){
 	console.log(content); 
-}
+};
 CAPPEDITOR.prototype.onChooseCallBack = null; 
 
 CORE = {
@@ -200,7 +200,7 @@ CORE = {
 		$(textarea).data('ace-editor',editor);
 		return editor;
 	}
-}
+};
 CORE.URL = {
 	build: function(url, params){
 		var qs = ""; 
@@ -217,7 +217,7 @@ CORE.URL = {
 	redirect: function(url){
 		window.location.href = url;
 	}
-}
+};
 CORE.POPUP = {
     dialogs: [],
     open: function (url, params, config) {
@@ -312,14 +312,14 @@ CORE.POPUP = {
         }
         $('#popup-id-' + popup_id).find('.modal-dialog').removeClass("modal-sm").removeClass('modal-lg').addClass(cl);
     }
-}
+};
 $(document).ready(function () {
     CORE.init();
-})
+});
 
 _TL = function (txt) {
     return CORE.phrase(txt);
-}
+};
 function convert_vni(alias)
 {
     var str = alias;
@@ -388,4 +388,4 @@ window.alert = function (msg, title) {
         title: title,
         message: msg
     });
-}
+};

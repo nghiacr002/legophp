@@ -39,6 +39,21 @@ input.checkbox-inline{
 	padding:7px;
 	
 }
+.breadcrumb-holder{
+	border: 1px solid rgba(0, 0, 0, 0.125);
+    background: white !important;
+    padding:15px !important;
+}
+.breadcrumb-holder h1{
+	margin: 0;
+	font-size: 24px;
+	display:inline;
+}
+.breadcrumb-holder .breadcrumb{
+	float:right;
+	background: transparent !important;
+	padding:3px 15px;
+}
 img.logo-header{
      position: relative;
     box-shadow: 2px 2px 2px rgba(255, 255, 255, .2);

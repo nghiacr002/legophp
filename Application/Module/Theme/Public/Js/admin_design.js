@@ -131,7 +131,7 @@ ADMIN_DESIGN = {
         }
         );
     },
-}
+};
 $(document).ready(function(){
 	ADMIN_DESIGN.init();
 });

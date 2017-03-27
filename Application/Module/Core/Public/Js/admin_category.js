@@ -176,7 +176,7 @@ ADMIN_CATEGORY = {
         $('#box-form-menu h3.box-title').html(_TL('core.add_new_menu'));
         $('#switch_form').hide();
     }
-}
+};
 
 $(document).ready(function () {
     ADMIN_CATEGORY.init();

@@ -16,7 +16,7 @@ ADMIN_CONTROLLER = {
         });
     },
     
-}
+};
 $(document).ready(function () {
 	ADMIN_CONTROLLER.init();
 });

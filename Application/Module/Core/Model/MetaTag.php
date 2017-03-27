@@ -99,7 +99,7 @@ class MetaTag extends Model
         	{
         		foreach ($aRows as $iKey => $oRow)
         		{
-        			$aDefaults[] = $oRow->toString();
+        			$aDefaults[$oRow->meta_tag] = $oRow->toString();
         		}
         	}
             else

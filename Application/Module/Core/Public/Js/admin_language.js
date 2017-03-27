@@ -49,7 +49,7 @@ ADMIN_LANGUAGE = {
             DEFAULT_UPDATE = false;
         });
     }
-}
+};
 $(document).ready(function () {
     ADMIN_LANGUAGE.init();
 });
