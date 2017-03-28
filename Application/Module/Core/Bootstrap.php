@@ -40,6 +40,20 @@ class Bootstrap extends ModuleBootstrap
                 'aCurrentUser' => $this->app->auth->getViewer()
             ));
         }
+        $sCodeGA = $this->app->getSetting('seo.google_analysis_code');
+        if(!empty($sCodeGA))
+        {
+        	if(strpos($sCodeGA, '<script>') === false)
+        	{
+        		$sCodeGA = '<script>'.$sCodeGA.'</script>';
+        	}
+        	$this->app->template->setHeader(array(
+        		$sCodeGA
+        	));
+        }
+		$this->app->template->setHeader(array(
+			'<link rel="icon" type="image/png" href="favicon.png">'
+		));
     }
 	protected function initLanguage()
 	{

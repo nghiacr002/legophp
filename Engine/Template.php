@@ -72,6 +72,9 @@ class Template extends Object
         {
             include_once $sIncludeHeader;
         }
+		$this->setDescription($this->app->getSetting('core.default_site_description'));
+		$this->setKeyword($this->app->getSetting('core.default_site_keywords'));
+		//$this->setTitle($this->app->getSetting('core.site_name'));
     }
     public function inLegoMode($mValue = true)
     {
@@ -302,11 +305,30 @@ class Template extends Object
     public function getMeta()
     {
         $aMeta = isset($this->_aHeader['Meta']) ? $this->_aHeader['Meta'] : array();
+        if(!isset($aMeta['description']) || empty($aMeta['description']))
+        {
+        	$aMeta['description'] = '<meta name="description" content="'.$this->getDescription().'"/>';
+        }
+        if(!isset($aMeta['title']) || empty($aMeta['title']))
+        {
+        	$aMeta['title'] = '<meta name="title" content="'.$this->getTitle().'"/>';
+        }
+        if(!isset($aMeta['keyword']) || empty($aMeta['keyword']))
+        {
+        	$aMeta['keyword'] = '<meta name="keyword" content="'.$this->getKeywords().'"/>';
+        }
         return implode(PHP_EOL, $aMeta);
     }
-	public function setMeta($sValue)
+	public function setMeta($sValue, $sTag = null)
 	{
-		$this->_aHeader['Meta'][] = $sValue;
+		if($sTag)
+		{
+			$this->_aHeader['Meta'][$sTag] = $sValue;
+		}
+		else
+		{
+			$this->_aHeader['Meta'][] = $sValue;
+		}
 		return $this;
 	}
     public function getTitle()

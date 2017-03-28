@@ -6,6 +6,7 @@ use APP\Application\Module\User\Model\Auth as UserAuth;
 use APP\Application\Module\Core\Model\Setting;
 use APP\Application\Module\Core\Model\Language;
 use APP\Engine\Module\Plugin;
+use SebastianBergmann\CodeCoverage\Util;
 
 class Application {
 	private $_aConfigs;
@@ -97,6 +98,7 @@ class Application {
 		{
 			$sCurrentURL = Utils::getCurrentURL();
 			$sContent =  Cache::getInstance()->getStorage()->get("static_".md5($sCurrentURL),"HTML");
+
 			if($sContent)
 			{
 				system_display_result($sContent);
@@ -316,10 +318,10 @@ class Application {
 		}
 		if($this->getSetting('core.cache_html_output'))
 		{
-			$sCurrentURL = $this->router->url()->getCurrentUrl();
+			$sCurrentURL = Utils::getCurrentUrl();
 			Cache::getInstance()->getStorage()->set("static_".md5($sCurrentURL),$sContent,$this->getSetting('core.ttl_cache'),"HTML");
 		}
-		system_display_result ( $sContent );
+		system_display_result ( $sContent);
 	}
 	public function checkLogin($bRedirect = false) {
 		$bIsLogin = $this->auth->isAuthenticated ();

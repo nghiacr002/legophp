@@ -265,7 +265,7 @@ class File extends FileManager
 		@fclose ( $fd );
 		die ();
 	}
-	public function displayContent($sFileName, $sContentType = null)
+	public function displayContent($sFileName, $sContentType = null, $aHeaders = array())
 	{
 		if ($sContentType == null)
 		{
@@ -273,6 +273,17 @@ class File extends FileManager
 		}
 		ob_clean ();
 		header ( 'Content-type: ' . $sContentType );
+		if(count($aHeaders))
+		{
+			foreach($aHeaders as $sHeader)
+			{
+				header($sHeader);
+			}
+		}
+		else
+		{
+			header('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time() + (60 * 60))); // 1 hour
+		}
 		readfile ( $sFileName );
 		exit ();
 	}

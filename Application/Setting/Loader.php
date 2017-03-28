@@ -28,6 +28,23 @@ function d($mInfo, $bVarDump = false)
     ($bVarDump ? var_dump($mInfo) : print_r($mInfo));
     (!$bCliOrAjax ? print '</pre>' : false);
 }
+function system_gzhandler($sContent){
+	$sCompressedContent = $sContent;
+	if (isset($_SERVER['HTTP_ACCEPT_ENCODING'])
+			&& strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false && function_exists('gzcompress'))
+	{
+		$iLength = strlen($sContent);
+		if ($iLength > 1000)
+		{
+			header("Content-Encoding: gzip");
+			$sCompressedContent = gzcompress($sContent);
+			$sCompressedContent = substr($sCompressedContent, 0, strlen($sCompressedContent) - 4); // Why cut off ??
+			$sCRC = crc32($sContent);
+			$sCompressedContent = "\x1f\x8b\x08\x00\x00\x00\x00\x00" .$sCompressedContent .pack('V', $sCRC) . pack('V', $iLength);;
+		}
+	}
+	return $sCompressedContent;
+}
 
 function system_autoloader($class)
 {

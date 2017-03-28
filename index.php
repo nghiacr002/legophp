@@ -14,14 +14,15 @@ define('APP_ROOT_PATH', dirname(__FILE__) . APP_DS);
 define('APP_PATH', APP_ROOT_PATH . "Application" . APP_DS);
 define('APP_PATH_SETTING', APP_PATH . 'Setting' . APP_DS);
 define('APP_PATH_LIB', APP_ROOT_PATH . 'Library' . APP_DS);
-ob_start();
+require_once APP_PATH_SETTING . 'Loader.php';
+ob_start('system_gzhandler');
 if (!session_id())
 {
     session_start();
 }
 try
 {
-    require_once APP_PATH_SETTING . 'Loader.php';
+
     if(HAS_CONFIG_FILE == false){
     	header('Location:install.php');
     	exit;

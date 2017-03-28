@@ -64,7 +64,7 @@ class Bootstrap extends ModuleBootstrap
     	$sDate = isset($aParams['day']) ? $aParams['day'] : date('Y-m-d');
     	$oBlogModel = (new BlogModel());
     	$iPage = 1;
-    	$iLimit = 1000;
+    	$iLimit = $this->app()->getSetting('seo.number_of_url_per_sitemap_file',50);
     	$aConds = array(
     		array('blog_status',BlogModel::STATUS_ACTIVATED)
     	);

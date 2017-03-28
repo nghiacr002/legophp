@@ -4,7 +4,6 @@ namespace APP\Engine;
 
 class Utils
 {
-
     public static function date_format($iUnixTime, $sFormatTime = null)
     {
         if (!$sFormatTime)

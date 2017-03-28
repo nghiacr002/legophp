@@ -21,6 +21,13 @@ CORE = {
 				e.stopImmediatePropagation();
 			}
 		});
+        if(typeof ace !="undefined"){
+        	var pathACE = CORE.params['sBaseUrl'] + 'Application/Module/Core/Public/Js/ace';
+        	console.log(pathACE);
+        	ace.config.set("modePath", pathACE);
+        	ace.config.set("workerPath", pathACE) 
+        	ace.config.set("themePath", pathACE) ;
+        }
     },
     phrase: function (txt) {
         if (CORE.phrases[txt]) {
