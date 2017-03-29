@@ -12,10 +12,19 @@
 	  	<div class="image-slider-holder">
 	  		{%if aSetting.value %}
 	  			{% for key,sImg in aSetting.value %}
-	  				<p class="inline-image">
+	  				<div class="image-holder-item">
+	  				<p class="inline-image" style="float:left;">
 	  					<a class="js-remove-a" onclick="remove_item(this)" href="javascript:void(0)">
-	  						<i class="fa fa-trash"></i></a>
-	  						<img src="{{ sImg|image_path('small-square') }}"/><span class="image-label">{{ sImg }}</span><input type="hidden" name="params[{{ key }}][]" value="{{ sImg }}"/></p>
+  						<i class="fa fa-trash"></i></a>
+  						<img src="{{ sImg.url|image_path('small-square') }}"/>
+  						<input type="hidden" name="params[{{ key }}][{{loop.index0}}][url]" value="{{ sImg.url }}"/>
+	  				</p>
+	  				<div  class="img-content-holder" style="float:left;width:70%;">
+	  				<input class="form-control" type="text" value="{{sImg.title}}" name="params[{{ key }}][{{loop.index0}}][title]" placeholder="{{ Translate('core.title')}}"/>
+	  				<input class="form-control" type="text" value="{{sImg.link}}" name="params[{{ key }}][{{loop.index0}}][link]" placeholder="{{ Translate('core.link')}}"/>
+	  				</div>
+	  				<div class="clear"></div>
+	  				</div>
 	  			{% endfor %}
 	  		{% endif %}
 	  	</div>
@@ -28,13 +37,21 @@
 	  				var container = $(element).parent().parent().find('.image-slider-holder'); 
 	  				var item = new CAPPEDITOR(element, container);
 	  				item.onChooseCallBack = function(list){
-	  					
+	  					var l = $('.image-slider-holder .image-holder-item').length;
 	  					if (list.length > 0) {
 							for (i = 0; i < list.length; i++) {
 								var item = list[i];
+								var index = l + i; 
 								var html = '';
 								if (typeof item.thumb != 'undefined') {
-									html = '<p class="inline-image"><a class="js-remove-a" onclick="remove_item(this)" href="javascript:void(0)"><i class="fa fa-trash"></i></a><img src="' + item.thumb + '"/><span class="image-label">' + item.title + '</span><input type="hidden" name="params['+key_slider_name+'][]" value="'+item.absolute_path+'"/></p>';
+									html = '<div class="image-holder-item"> <p class="inline-image" style="float:left;"><a class="js-remove-a" onclick="remove_item(this)" href="javascript:void(0)"><i class="fa fa-trash"></i></a><img src="' + item.thumb + '"/><input type="hidden" name="params['+key_slider_name+']['+index+'][url]" value="'+item.absolute_path+'"/></p>';
+									html+='<div class="img-content-holder" style="float:left;width:70%;">';
+									html+='<input class="form-control" type="text" value="" name="params['+key_slider_name+']['+index+'][title]" placeholder="{{ Translate('core.title')}}"/>';
+									html+='<input class="form-control" type="text" value="" name="params['+key_slider_name+']['+index+'][link]" placeholder="{{ Translate('core.link')}}"/>';
+									html+='<div class="clear"></div>';
+									html+='</div>';
+									html+='<div class="clear"></div>';
+									html+='</div>';
 								} 
 								this.container.append(html);
 							}
@@ -43,8 +60,8 @@
 	  				CORE.showFileManager(item,'image');
 	  			}
 	  			function remove_item(element){
-	  				var parent = $(element).parent();
-	  				bootbox.confirm(_TL('core.are_you_sure'), function(e){
+	  				var parent = $(element).parent().parent();
+	  				bootbox.confirm(_TL('core.are_you_sure'), function(result){
 	  					if(result){
 	  						parent.remove();	
 	  					}
@@ -83,5 +100,8 @@
  	}
  	.image-slider-holder .inline-image img{
  		width:100%;
+ 	}
+ 	.img-content-holder input{
+ 		margin-bottom:5px;
  	}
 </style>

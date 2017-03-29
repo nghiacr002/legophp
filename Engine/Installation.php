@@ -57,6 +57,7 @@ class Installation
 			$oInstallation = $oModule->installation ();
 			if($oInstallation && method_exists($oInstallation, 'process'))
 			{
+				$oInstallation->setInstallVersion($app->getVersion());
 				try{
 					$oInstallation->process();
 				}

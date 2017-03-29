@@ -325,3 +325,6 @@ $aPhrases['core.cache_html_output_title'] = 'Cache Output HTML';
 $aPhrases['core.cache_html_output_description'] = 'Speed Up by caching all output html';
 $aPhrases['core.google_analysis_code_title'] = 'Google Analysis (GA) Code';
 $aPhrases['core.google_analysis_code_description'] = 'Read more at: <a href="https://support.google.com/analytics/answer/1008080?hl=en" target="_blank">https://support.google.com/analytics/answer/1008080?hl=en</a>';
+$aPhrases['core.title'] = 'Title';
+$aPhrases['core.link'] = 'Link';
+

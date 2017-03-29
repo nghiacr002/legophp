@@ -140,6 +140,7 @@ class AdminWidgetController extends Controller
         elseif(!empty($sHash))
         {
         	$aDataSubmit = $oWidgetModel->getFromSession($sHash);
+
         	if(count($aSettings))
         	{
         		if(isset($aDataSubmit['params']))

@@ -21,7 +21,7 @@ class PageItem extends HtmlForm
         $oInput = new Select();
         $oInput->setName("page_layout");
         $aPageLayouts = (new Layout())->getAll();
-        $oInput->setOption(0, $this->language()->translate('page.default_layout'));
+        //$oInput->setOption(-1, $this->language()->translate('page.default_layout'));
         if (count($aPageLayouts))
         {
             foreach ($aPageLayouts as $aLayout)

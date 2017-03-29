@@ -11,7 +11,16 @@
     <div class="carousel-inner" role="listbox">
 		{% for key,sImg in aSliderImages %}
     		<div class="item {% if key == 0 %} active {% endif %}">
-		        <img src="{{ sImg|image_path('origin')}}" alt="">
+    			{% if sImg.link %}
+    			<a href="{{ sImg.link}}">
+    			{%else %}
+    			<a href="#">
+    			{%endif%}
+		        <img src="{{ sImg.url|image_path('origin')}}" alt="{{ sImg.title}}">
+		        </a>
+		        <div class="carousel-caption">
+                      {{ sImg.title}}
+                 </div>
 		     </div>
     	{% endfor %}
     </div>

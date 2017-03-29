@@ -96,7 +96,7 @@ class Exporter extends Component
 				}
 				$sDataContent = implode ( ',' . PHP_EOL, $aDataContent );
 				$iPage ++;
-				$aQueries [] = 'INSERT INTO `' . $sHashTable . '` VALUES' . $sDataContent . ';';
+				$aQueries [] = 'INSERT IGNORE INTO `' . $sHashTable . '` VALUES' . $sDataContent . ';';
 				$aQueries [] = "";
 			} while ( 1 == 1 );
 		}
